@@ -10,6 +10,6 @@ execFileSync(process.execPath, [fileURLToPath(new URL('build.mjs', import.meta.u
   stdio: 'inherit',
 });
 await rm(archive, { force: true });
-execFileSync('zip', ['-q', '-r', archive, '.'], { cwd: new URL('dist/', root) });
+execFileSync('zip', ['-q', '-r', archive, '.', '-x', 'review/*'], { cwd: new URL('dist/', root) });
 execFileSync('unzip', ['-tq', archive], { stdio: 'inherit' });
 console.log(`Packaged ${archive}`);

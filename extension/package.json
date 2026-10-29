@@ -1,13 +1,13 @@
 {
   "name": "idam-new-tab",
   "private": true,
-  "version": "0.2.4",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "format": "prettier --write src tests scripts public package.json .prettierrc.json",
-    "format:check": "prettier --check src tests scripts public package.json .prettierrc.json",
+    "format": "prettier --write src tests scripts public review package.json .prettierrc.json",
+    "format:check": "prettier --check src tests scripts public review package.json .prettierrc.json",
     "check": "npm run format:check && npm test",
     "package": "node scripts/package.mjs"
   },

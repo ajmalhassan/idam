@@ -1,6 +1,17 @@
-import { TileLink, Button, IconButton } from '@pane-ui/react';
+import { TileLink, Button, IconButton, TileSequence } from '@pane-ui/react';
+import { useEntrance } from './useMotion.js';
 import { Icon } from './Icon.jsx';
-export function Shortcuts({ ws, query, editing, setEditing, openShortcut, addRef, move }) {
+export function Shortcuts({
+  firstArrival,
+  ws,
+  query,
+  editing,
+  setEditing,
+  openShortcut,
+  addRef,
+  move,
+}) {
+  const show = useEntrance();
   const visibleShortcuts = ws.shortcuts.filter((s) =>
     (s.title + ' ' + s.url).toLowerCase().includes(query.trim().toLowerCase()),
   );
@@ -17,52 +28,61 @@ export function Shortcuts({ ws, query, editing, setEditing, openShortcut, addRef
           {editing ? 'done' : 'edit tiles'}
         </Button>
       </div>
-      <div className="shortcut-grid">
-        {visibleShortcuts.map((s) => (
-          <div className={`shortcut-slot ${s.size === 'wide' ? 'wide' : ''}`} key={s.id}>
-            <TileLink
-              href={s.url}
-              label={s.title}
-              className={`shortcut tone-${s.tone}`}
-              onClick={(e) => {
-                if (editing) {
-                  e.preventDefault();
-                  openShortcut(s, e);
-                }
-              }}
-            >
-              <span className="tile-content">
-                {s.icon ? (
-                  <Icon name={s.icon} />
-                ) : (
-                  <span className="initial">{s.title.slice(0, 2).toUpperCase()}</span>
-                )}
-              </span>
-            </TileLink>
-            {editing && (
-              <div className="tile-tools">
-                <IconButton
-                  label={`Move ${s.title} earlier`}
-                  icon={<Icon name="left" />}
-                  disabled={ws.shortcuts[0].id === s.id}
-                  onClick={() => move(s, -1)}
-                />
-                <IconButton
-                  label={`Edit ${s.title}`}
-                  icon={<Icon name="edit" />}
-                  onClick={(e) => openShortcut(s, e)}
-                />
-                <IconButton
-                  label={`Move ${s.title} later`}
-                  icon={<Icon name="right" />}
-                  disabled={ws.shortcuts.at(-1).id === s.id}
-                  onClick={() => move(s, 1)}
-                />
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      <TileSequence
+        className="shortcut-grid"
+        show={show}
+        mode="layered"
+        duration={firstArrival ? 360 : 220}
+        interval={firstArrival ? 45 : 22}
+        items={visibleShortcuts.map((s) => ({
+          id: s.id,
+          size: s.size === 'wide' ? 'wide' : 'small',
+          content: (
+            <div className={`shortcut-slot ${s.size === 'wide' ? 'wide' : ''}`} key={s.id}>
+              <TileLink
+                href={s.url}
+                label={s.title}
+                className={`shortcut tone-${s.tone}`}
+                onClick={(e) => {
+                  if (editing) {
+                    e.preventDefault();
+                    openShortcut(s, e);
+                  }
+                }}
+              >
+                <span className="tile-content">
+                  {s.icon ? (
+                    <Icon name={s.icon} />
+                  ) : (
+                    <span className="initial">{s.title.slice(0, 2).toUpperCase()}</span>
+                  )}
+                </span>
+              </TileLink>
+              {editing && (
+                <div className="tile-tools">
+                  <IconButton
+                    label={`Move ${s.title} earlier`}
+                    icon={<Icon name="left" />}
+                    disabled={ws.shortcuts[0].id === s.id}
+                    onClick={() => move(s, -1)}
+                  />
+                  <IconButton
+                    label={`Edit ${s.title}`}
+                    icon={<Icon name="edit" />}
+                    onClick={(e) => openShortcut(s, e)}
+                  />
+                  <IconButton
+                    label={`Move ${s.title} later`}
+                    icon={<Icon name="right" />}
+                    disabled={ws.shortcuts.at(-1).id === s.id}
+                    onClick={() => move(s, 1)}
+                  />
+                </div>
+              )}
+            </div>
+          ),
+        }))}
+      />
       <Button
         ref={addRef}
         className="add-shortcut"

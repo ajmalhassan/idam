@@ -1,0 +1,140 @@
+.review-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 30px;
+  border-bottom: 1px solid #24242a;
+  background: #0c0c0f;
+  position: relative;
+  z-index: 110;
+  font-size: 12px;
+}
+.review-bar a {
+  color: #ededf0;
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+.review-bar a span {
+  color: #92929d;
+  letter-spacing: 0;
+  margin-left: 16px;
+}
+.review-bar div {
+  display: flex;
+  gap: 10px;
+}
+.review-bar button {
+  color: #d8d8e0;
+  background: transparent;
+  border: 1px solid #41414d;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+.review-cover {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+.review-cover h1 {
+  font-size: clamp(60px, 8vw, 112px);
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: -5px;
+  margin: 22px 0;
+}
+.review-cover h1 span {
+  color: #62b7ff;
+}
+.review-lede {
+  color: #b2b2be;
+  font-size: 19px;
+  line-height: 1.6;
+}
+.review-start {
+  margin: 30px 0 64px;
+  background: #0078d7;
+  color: white;
+  border: 0;
+  padding: 18px 24px;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+.flow-map {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.flow-map li {
+  border-top: 1px solid #41414d;
+  padding-top: 18px;
+}
+.flow-map span {
+  display: block;
+  color: #7bbcff;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+.flow-map strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 400;
+  margin-top: 18px;
+}
+.flow-map p,
+.review-footnote {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #a8a8b5;
+}
+.review-footnote {
+  margin-top: 40px;
+}
+.review-stage {
+  position: relative;
+  isolation: isolate;
+}
+.review-stage .brand-reveal {
+  position: absolute;
+}
+.review-stage .skip-intro {
+  top: 24px;
+}
+.review-bar button:focus-visible,
+.review-start:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+@media (max-width: 650px) {
+  .review-bar {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+  .review-bar a span {
+    display: none;
+  }
+  .review-bar button {
+    font-size: 11px;
+  }
+  .review-cover {
+    padding: 40px 24px;
+  }
+  .flow-map {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .review-cover h1 {
+    letter-spacing: -3px;
+  }
+}
+@media (max-width: 380px) {
+  .flow-map {
+    grid-template-columns: 1fr;
+  }
+}

@@ -27,6 +27,11 @@ export function App() {
     [noteOpen, setNoteOpen] = useState(false),
     [query, setQuery] = useState('');
   const [setupOpen, setSetupOpen] = useState(false);
+  const [screen, setScreen] = useState(null);
+  const [firstArrival, setFirstArrival] = useState(false);
+  useEffect(() => {
+    if (ws.ready && screen === null) setScreen(ws.onboarded ? 'home' : 'setup');
+  }, [ws.ready, ws.onboarded, screen]);
   const addRef = useRef(null),
     settingsRef = useRef(null),
     shortcutFocus = useRef(null),
@@ -75,6 +80,8 @@ export function App() {
       if (
         !ws.ready ||
         !ws.onboarded ||
+        screen !== 'home' ||
+        setupOpen ||
         e.metaKey ||
         e.ctrlKey ||
         e.altKey ||
@@ -95,24 +102,30 @@ export function App() {
     };
     document.addEventListener('keydown', key);
     return () => document.removeEventListener('keydown', key);
-  }, [ws.ready, ws.onboarded, ws.settings.showNotes]);
-  if (ws.ready && (!ws.onboarded || setupOpen))
+  }, [ws.ready, ws.onboarded, ws.settings.showNotes, screen, setupOpen]);
+  if (ws.ready && (screen === 'setup' || setupOpen))
     return (
       <Onboarding
         run={ws.run}
         error={ws.error}
         retry={ws.retry}
-        revisit={ws.onboarded}
+        revisit={setupOpen}
         settings={ws.settings}
         shortcuts={ws.shortcuts}
-        onComplete={() => setSetupOpen(false)}
+        onComplete={() => {
+          setFirstArrival(!setupOpen);
+          setSetupOpen(false);
+          setScreen('home');
+        }}
         onCancel={() => setSetupOpen(false)}
       />
     );
   const greeting = greetingFor(now);
   return (
     <MetroTheme accent={ws.settings.accent}>
-      <div className="workspace">
+      <div
+        className={`workspace home-workspace ${firstArrival ? 'first-arrival' : 'daily-arrival'}`}
+      >
         <div className="topline">
           <Brand />
           <Button
@@ -135,11 +148,11 @@ export function App() {
             {ws.error}
           </MessageBanner>
         )}
-        {!ws.ready ? (
+        {!ws.ready || screen === null ? (
           <p className="loading">Opening your workspace…</p>
         ) : (
           <>
-            <header className="hero">
+            <header className="hero home-enter">
               <div>
                 <p className="eyebrow">
                   {new Intl.DateTimeFormat(undefined, {
@@ -172,7 +185,7 @@ export function App() {
                 <div className="date">make today yours</div>
               </div>
             </header>
-            <form className="search" onSubmit={search} role="search">
+            <form className="search home-enter" onSubmit={search} role="search">
               <Icon name="search" />
               <TextField
                 ref={searchRef}
@@ -187,8 +200,11 @@ export function App() {
             </form>
             <main className="dashboard">
               <div className="places-column">
-                <Priority records={ws.priorities} day={day} run={ws.run} />
+                <div className="priority-enter home-enter">
+                  <Priority records={ws.priorities} day={day} run={ws.run} />
+                </div>
                 <Shortcuts
+                  firstArrival={firstArrival}
                   ws={ws}
                   query={query}
                   editing={editing}
@@ -199,7 +215,7 @@ export function App() {
                 />
               </div>
               <aside
-                className="daily-panel"
+                className="daily-panel home-enter"
                 hidden={!ws.settings.showTasks && !ws.settings.showNotes}
               >
                 <Tasks ws={ws} hidden={!ws.settings.showTasks} />
@@ -212,7 +228,7 @@ export function App() {
                 />
               </aside>
             </main>
-            <footer className="page-footer">
+            <footer className="page-footer home-enter">
               <span>Yours, on this device.</span>
               <span>
                 Built with{' '}

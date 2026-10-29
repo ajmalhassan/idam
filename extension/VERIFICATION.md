@@ -69,3 +69,16 @@ A fresh temporary checkout containing only Git candidate files passed an offline
 - Morning now starts at 05:00, afternoon at 12:00, and evening at 18:00 and continues through 04:59. The existing local clock drives the greeting; calendar-day rollover is unchanged.
 - Regression cases cover midnight, the reported 00:23 time, 04:59/05:00, 11:59/12:00, 17:59/18:00 and 23:59. Formatting and all 17 tests pass; production build and ZIP integrity checks pass.
 - Updated the existing unpacked folder and packaged idam-new-tab-0.2.4.zip. The user's installed Vivaldi instance was not reloaded or modified.
+
+
+## 0.3.0 onboarding motion — 2026-10-30
+
+- Implemented brand reveal → optional name/accent → shortcut choices → successful save → home. Pane Transition and Stagger handle setup; TileSequence handles the shortcut entrance. Brand docking uses Web Animations and the same four-tile mark.
+- `npm run check`: formatting clean, 21 tests pass. `npm run package`: ZIP integrity passes. Version 0.3.0; JavaScript 251,980 bytes (78,594 gzip), CSS 41,405 bytes (9,071 gzip).
+- Browser verification in isolated Chromium contexts: name and teal accent retained through Back; five selected shortcuts arrive on home; rapid forward action ignored; outgoing transition is inert; external animation cancellation recovers to ready.
+- Skip intro reaches setup without completing it. Skip setup saves defaults. Simulated storage write failure keeps setup and an actionable error visible; retry succeeds after restoring writes. Zero shortcut selections produce a usable empty home.
+- Existing completed workspace reloads directly to daily home with no intro. Filtering shortcuts after arrival does not replay their sequence. Review replay leaves localStorage unchanged; production metafile contains no review modules, and ZIP contains no review files.
+- Reduced-motion mode reaches ready with no intro and no running animations. At 390px, setup and home have no horizontal overflow and remain dark under a light OS preference. Changing motion preference after starting intro also reaches a settled welcome.
+- Visually inspected the reveal at an intermediate frame, logo docking geometry, full home, and the replay flow map. A 300ms animation sample was paused only for inspection; review page runs at normal speed. Screenshot: screenshots/idam-motion-map.png.
+- Independent code review found no blocking defects. The full welcome settles around 1.4 seconds rather than the original approximate 1.2-second target; documented as a timing choice for visual review.
+- This pass tested the production bundle in Chromium, not a fresh native Vivaldi installation. Existing installed workspace data was not changed. The same unpacked dist folder is rebuilt for the user to reload after review.

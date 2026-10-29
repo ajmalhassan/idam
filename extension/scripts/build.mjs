@@ -45,3 +45,34 @@ await writeFile(new URL('newtab.html', output), html);
 const manifest = JSON.parse(await readFile(new URL('manifest.json', output), 'utf8'));
 manifest.version = pkg.version;
 await writeFile(new URL('manifest.json', output), JSON.stringify(manifest, null, 2) + '\n');
+
+// Separate review entry: all application storage imports are replaced at build
+// time with an in-memory adapter. No review mode ships in the extension bundle.
+await build({
+  absWorkingDir: root,
+  entryPoints: ['review/app.jsx'],
+  outdir: 'dist/review',
+  bundle: true,
+  minify: true,
+  format: 'esm',
+  target: 'chrome120',
+  jsx: 'automatic',
+  define: { 'process.env.NODE_ENV': '"production"' },
+  plugins: [
+    {
+      name: 'review-storage',
+      setup(builder) {
+        builder.onResolve({ filter: /storage\.js$/ }, () => ({
+          path: fileURLToPath(new URL('../review/storage.js', import.meta.url)),
+        }));
+      },
+    },
+  ],
+});
+let review = await readFile(new URL('../review/index.html', import.meta.url), 'utf8');
+for (const file of ['app.js', 'app.css']) {
+  const data = await readFile(new URL(`review/${file}`, output));
+  const hash = createHash('sha256').update(data).digest('hex').slice(0, 12);
+  review = review.replace(`"${file}"`, `"${file}?v=${hash}"`);
+}
+await writeFile(new URL('review/index.html', output), review);

@@ -56,3 +56,10 @@ The installed extension had no icon because only the new-tab HTML favicon was de
 ## 0.2.4 overnight greeting — 2026-10-30
 
 The home greeting said good morning at 00:23 because the consumer classified all hours before noon as morning. Morning now begins at 05:00 local time, with evening continuing overnight. Boundary coverage includes the reported time. This was consumer logic; no Pane UI issue was filed.
+
+
+## 0.3.0 motion pass — 2026-10-30
+
+Used Pane Transition, Stagger and TileSequence for setup turnstiles and the home wave. Initially visible Transition/TileSequence instances intentionally skip entrances, so the consumer changes show from false to true before paint. TileSequence adds layout wrappers: grid spans and tile heights are assigned to those wrappers in consumer CSS. Press transforms remain on the inner tile.
+
+Checked inert exits, rapid navigation, externally cancelled animation recovery, reduced motion, failed writes/retry and settled filtering. No reproducible upstream defect was found; no GitHub issue was filed. Brand docking and the review adapter are application code. The review adapter is bundled separately and uses only memory, with release packaging excluding it.

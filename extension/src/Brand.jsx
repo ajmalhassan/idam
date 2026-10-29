@@ -7,7 +7,7 @@ export function Brand() {
         <i />
         <i />
       </span>
-      IDAM
+      <span className="brand-name">IDAM</span>
     </span>
   );
 }
