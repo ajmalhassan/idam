@@ -19,7 +19,7 @@ test('built page loads bundled assets using their content fingerprints', async (
   const manifest = JSON.parse(await readFile(new URL('dist/manifest.json', root), 'utf8'));
   const pkg = JSON.parse(await readFile(new URL('package.json', root), 'utf8'));
   assert.equal(manifest.version, pkg.version);
-  assert.deepEqual(manifest.permissions, ['storage']);
+  assert.deepEqual(manifest.permissions, ['storage', 'favicon']);
   // Installation and extension-management surfaces use manifest icons, not the page favicon.
   for (const size of [16, 32, 48, 128]) {
     const iconPath = manifest.icons?.[size];

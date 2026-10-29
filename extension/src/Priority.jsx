@@ -85,15 +85,7 @@ export function Priority({ records, day, run }) {
           }}
         >
           <h2 id="priority-heading">
-            {editing ? (
-              'Make room for what matters.'
-            ) : (
-              <>
-                What matters
-                <br />
-                most today?
-              </>
-            )}
+            {editing ? 'Make room for what matters.' : 'What matters most today?'}
           </h2>
           {rolledOver && <p role="status">A new day. Save this draft as today's priority.</p>}
           <TextField

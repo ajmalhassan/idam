@@ -1,0 +1,280 @@
+/* A compact Metro workspace: the first screen puts daily work within reach. */
+.home-workspace {
+  max-width: 1440px;
+  padding: 20px clamp(24px, 4vw, 56px) 24px;
+}
+.home-workspace .hero {
+  margin: 20px 0 16px;
+  gap: 20px;
+  align-items: center;
+}
+.home-workspace .hero h1 {
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+}
+.home-workspace .hero .eyebrow {
+  margin-bottom: 8px;
+  font-size: 10px;
+}
+.home-workspace .time {
+  font-size: 30px;
+}
+.home-workspace .clock {
+  flex-shrink: 0;
+  padding: 0;
+}
+.home-workspace .search {
+  margin-bottom: 20px;
+  padding-bottom: 6px;
+}
+.home-workspace .dashboard {
+  grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr);
+  gap: 24px;
+}
+.home-workspace .dashboard:has(> .daily-panel[hidden]) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.home-workspace .priority {
+  min-height: 148px;
+  padding: 18px 20px;
+}
+.home-workspace .priority-top {
+  min-height: 24px;
+}
+.home-workspace .priority h2 {
+  font-size: 24px;
+  margin: 10px 0 14px;
+}
+.home-workspace .priority form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+}
+.home-workspace .priority form h2,
+.home-workspace .priority form > p {
+  grid-column: 1 / -1;
+  margin: 4px 0 0;
+}
+.home-workspace .priority form .wp-text-field {
+  min-width: 0;
+  width: 100%;
+}
+.home-workspace .priority form .priority-actions {
+  margin: 0;
+  gap: 8px;
+}
+.home-workspace .priority-bottom {
+  gap: 12px;
+}
+.home-workspace .shortcuts-panel > .section-line {
+  margin: 18px 0 10px;
+}
+.home-workspace .section-line h2 {
+  font-size: 23px;
+}
+.home-workspace .shortcut-grid {
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 8px;
+  align-items: start;
+}
+.home-workspace .wp-tile-sequence-item {
+  aspect-ratio: 1;
+  min-width: 0;
+}
+.home-workspace .wp-tile-sequence-item[data-size='wide'] {
+  grid-column: span 2;
+  aspect-ratio: 2;
+  align-self: stretch;
+}
+.home-workspace .shortcut-slot {
+  height: 100%;
+}
+.home-workspace .shortcut.wp-tile {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 12px;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+.home-workspace .wp-tile-sequence-item:not([data-size='wide']) .wp-tile-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.home-workspace .wp-tile-sequence-item[data-size='wide'] .shortcut {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.home-workspace .wp-tile-sequence-item[data-size='wide'] .wp-tile-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-workspace .tile-content {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.site-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.site-initial {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  font-size: 22px;
+  font-weight: 400;
+}
+.home-workspace .add-shortcut {
+  margin-top: 8px;
+  min-height: 36px;
+}
+.home-workspace .is-editing .shortcut-grid {
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+}
+.home-workspace .is-editing .wp-tile-sequence-item {
+  aspect-ratio: auto;
+}
+.home-workspace .is-editing .shortcut {
+  height: 88px;
+}
+.home-workspace .is-editing .tile-tools {
+  min-height: 38px;
+}
+.home-workspace .daily-panel {
+  gap: 14px;
+}
+.home-workspace .tasks-panel,
+.home-workspace .notes-panel {
+  padding: 18px 20px;
+}
+.home-workspace .empty-tasks {
+  margin: 14px 0;
+  font-size: 14px;
+}
+.home-workspace .tasks {
+  max-height: 144px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.home-workspace .note-preview {
+  min-height: 0;
+  gap: 8px;
+}
+.home-workspace .note-preview > span:not(.note-open) {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.home-workspace .page-footer {
+  margin-top: 24px;
+  padding-top: 0;
+}
+@media (max-width: 850px) {
+  .home-workspace .dashboard {
+    grid-template-columns: minmax(0, 1.3fr) minmax(250px, 1fr);
+    gap: 16px;
+  }
+  .home-workspace .priority form {
+    grid-template-columns: 1fr;
+  }
+  .home-workspace .hero h1 {
+    font-size: 30px;
+  }
+}
+@media (max-width: 650px) {
+  .home-workspace {
+    padding: 20px;
+  }
+  .home-workspace .dashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-workspace .hero {
+    margin-top: 16px;
+    align-items: flex-start;
+  }
+  .home-workspace .hero h1 {
+    font-size: 28px;
+  }
+  .home-workspace .time {
+    font-size: 26px;
+  }
+  .home-workspace .hero .eyebrow {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .home-workspace .shortcut-grid {
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  }
+  .home-workspace .priority form {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .home-workspace .priority form .priority-actions {
+    flex-direction: column;
+  }
+  .home-workspace .priority h2 {
+    font-size: 22px;
+  }
+}
+
+/* Override Pane's four-column minimum when using compact auto-filled tracks. */
+.home-workspace .shortcut-grid > .wp-tile-sequence-item {
+  min-height: 0;
+  width: 100%;
+}
+.home-workspace .tile-content {
+  background: #f4f4f7;
+  color: #202027;
+  padding: 6px;
+}
+.home-workspace .site-icon {
+  width: 28px;
+  height: 28px;
+}
+.home-workspace .site-initial {
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  white-space: nowrap;
+}
+.home-workspace
+  .wp-tile-sequence-item:not([data-size='wide'])
+  .shortcut:is(:hover, :focus-visible)
+  .wp-tile-label {
+  clip-path: none;
+  width: calc(100% - 8px);
+  height: auto;
+  left: 4px;
+  bottom: 3px;
+  margin: 0;
+  padding: 2px 3px;
+  background: #09090be8;
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+.home-workspace .notes-panel {
+  padding: 16px 20px;
+}
+.home-workspace .notes-panel .section-line {
+  margin-bottom: 8px;
+}
+.home-workspace .note-preview.wp-button {
+  gap: 6px;
+}

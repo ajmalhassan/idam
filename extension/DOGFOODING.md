@@ -68,3 +68,8 @@ Checked inert exits, rapid navigation, externally cancelled animation recovery, 
 ## 0.3.1 invitation and color preview — 2026-10-30
 
 Retained Pane Button/TextField, Transition, Stagger and TileSequence. Used Stagger's CSS duration variable for the slower cadence, and consumer CSS background transitions with per-tile delays for accent waves. Added magenta and green to the consumer shortcut tone model so all six setup accents survive decoding and stay editable. No reproducible Pane defect was encountered; no upstream issue was filed.
+
+
+## 0.4.0 compact home — 2026-10-30
+
+Pane TileSequence wrappers inherit a four-column minimum height from `.wp-tile-grid > *`. Changing the consumer grid to compact auto-filled columns without overriding that minimum made square wrappers expand beyond their tracks. Fixed in scoped consumer CSS (`min-height: 0; width: 100%`); this was an integration assumption, not a confirmed library defect. Kept Pane press motion, accessible tile links and edit controls. No upstream issue filed.

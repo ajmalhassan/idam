@@ -16,6 +16,12 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 
 Preview data uses browser localStorage. The installed extension uses `chrome.storage.local`; the two workspaces are separate.
 
+## Compact home (0.4.0)
+
+The greeting and priority card use less vertical space, with tasks and notes beside your places. Small square tiles center the website favicon; names appear on hover and keyboard focus and remain available to screen readers. Wide tiles retain visible names. Existing shortcut records and sizes are preserved. Edit tiles reveals spacious editing/reordering controls. Longer task lists scroll inside their panel; notes open in the full editor.
+
+The default desktop layout was checked at 1280×720 with four tasks: priority, shortcuts, tasks and notes fit in the viewport. Smaller windows stack sections and can scroll. Reload the unpacked extension for the updated UI and its `favicon` permission.
+
 ## Welcome and motion (0.3.2)
 
 First run: four tiles assemble into Idam, then a Begin button waits for you. Begin docks the brand and opens a large, centered name prompt. Continue opens familiar places with six accent choices: a staggered color wave previews your choice on the tiles. Newly added places keep that color on home; existing places retain their own colors. Back preserves your choices. Skip animation jumps to Begin; Skip setup saves your current choices. Returning tabs use a shorter entrance. Reduced motion removes movement while preserving the Begin step.
@@ -30,7 +36,7 @@ For a repeatable review, open **http://127.0.0.1:8765/review/index.html**. The p
 4. In **Settings → Tabs → New Tab Page**, choose the extension-controlled start page (the label can appear as **Controlled by Extension**).
 5. Open a new tab.
 
-Alternatively, extract `idam-new-tab-0.3.2.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
+Alternatively, extract `idam-new-tab-0.4.0.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
 
 To return to Momentum, disable Idam — New Tab and enable Momentum again.
 
@@ -66,7 +72,7 @@ To upgrade a loaded unpacked installation, keep the same extension folder, rebui
 - Settings changes, notes, and edits to the same record use the latest completed save across tabs. Separate task and shortcut records do not replace the whole workspace.
 - Everything is local to the browser profile. This version has no sync/export. Uninstalling the extension clears its local data.
 
-The only requested permission is `storage`; the manifest also registers a new-tab override. No remote scripts, fonts, favicon services, or background worker are used. Search and shortcut links navigate only when activated.
+Permissions are `storage` and `favicon`; the manifest also registers a new-tab override. Website icons load directly from each shortcut origin’s `/favicon.ico`, without a referrer or page path/query. If that fails, the installed extension tries Chromium’s favicon endpoint. The web preview has no browser favicon cache access. Failed image loads fall back to initials; the browser may supply its own generic icon on a cache miss. No third-party favicon service, remote scripts, remote fonts or background worker are used. Search and shortcut links navigate only when activated. See [Chromium favicon documentation](https://developer.chrome.com/docs/extensions/how-to/ui/favicons).
 
 ## Development
 

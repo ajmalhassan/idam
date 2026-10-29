@@ -1,6 +1,7 @@
 import { TileLink, Button, IconButton, TileSequence } from '@pane-ui/react';
 import { useEntrance } from './useMotion.js';
 import { Icon } from './Icon.jsx';
+import { SiteIcon } from './SiteIcon.jsx';
 export function Shortcuts({
   firstArrival,
   ws,
@@ -16,7 +17,10 @@ export function Shortcuts({
     (s.title + ' ' + s.url).toLowerCase().includes(query.trim().toLowerCase()),
   );
   return (
-    <section className="shortcuts-panel" aria-labelledby="shortcuts-heading">
+    <section
+      className={`shortcuts-panel ${editing ? 'is-editing' : ''}`}
+      aria-labelledby="shortcuts-heading"
+    >
       <div className="section-line">
         <h2 id="shortcuts-heading">your places</h2>
         <Button
@@ -42,6 +46,8 @@ export function Shortcuts({
               <TileLink
                 href={s.url}
                 label={s.title}
+                title={s.title}
+                aria-label={s.title}
                 className={`shortcut tone-${s.tone}`}
                 onClick={(e) => {
                   if (editing) {
@@ -51,11 +57,7 @@ export function Shortcuts({
                 }}
               >
                 <span className="tile-content">
-                  {s.icon ? (
-                    <Icon name={s.icon} />
-                  ) : (
-                    <span className="initial">{s.title.slice(0, 2).toUpperCase()}</span>
-                  )}
+                  <SiteIcon key={s.url} url={s.url} title={s.title} />
                 </span>
               </TileLink>
               {editing && (

@@ -74,7 +74,7 @@ export function ShortcutDialog({ record, onClose, finalFocusRef, run }) {
           </Field>
           <Field label="Tile size">
             <Select value={form.size || 'small'} onChange={(e) => update('size', e.target.value)}>
-              <option value="small">Square</option>
+              <option value="small">Small square · favicon</option>
               <option value="wide">Wide</option>
             </Select>
           </Field>

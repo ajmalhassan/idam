@@ -4,6 +4,7 @@ import '@pane-ui/react/styles.css';
 import '../src/app.css';
 import '@pane-ui/react/motion.css';
 import '../src/motion.css';
+import '../src/home.css';
 import './review.css';
 import { App } from '../src/AppShell.jsx';
 import { store } from './storage.js';

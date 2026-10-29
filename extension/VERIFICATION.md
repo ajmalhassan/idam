@@ -100,3 +100,15 @@ A fresh temporary checkout containing only Git candidate files passed an offline
 - Formatting and all 23 tests pass. Production build and ZIP integrity pass; manifest version is 0.3.2, storage remains the only permission, and review files are excluded.
 - Exercised the production newtab.html bundle in an isolated Chromium context: the screen waited at Begin, had the approved SVG and 66px wordmark, and contained no review toolbar. Entered a name, selected violet, completed setup, and verified all four new home tiles used violet. Reload retained the name and went directly home without the reveal.
 - Rebuilt extension/dist for the existing unpacked installation and generated idam-new-tab-0.3.2.zip. The installed Vivaldi profile was not reloaded or reset. Screenshot of approved welcome: screenshots/idam-begin-theme-arrow.png.
+
+
+## 0.4.0 compact home and site icons — 2026-10-30
+
+- Compact header and single-line greeting, smaller priority form, favicon-first square tiles, retained labeled wide tiles, bounded task list, and one-line notes preview. Scoped CSS leaves onboarding proportions unchanged. Existing shortcut size/storage fields are preserved.
+- Added direct-origin favicon loading, followed by Chromium's native favicon endpoint in installed builds, then initials for failed image requests. Referrer is suppressed and only the origin is used. Added the favicon permission; no broad host or tabs permissions, external proxy service, or background worker.
+- Favicon source tests cover allowed HTTP(S), origin/port preservation, path/query removal, unsafe URLs, and ordering. Independent review caught that Chromium cache misses return valid generic images; reproduced wrong source ordering in a failing test and changed to direct-site-first. Browser cache fallback was not verified in an installed Vivaldi profile; a generic browser icon can remain when both the site icon and cached icon are unavailable.
+- Production localhost bundle at 1280×720: with four tasks, priority bottom 379px, shortcuts 580px, notes 698px. Task list scrolls at 144px; footer can fall below the fold with populated tasks. Default six-shortcut review at 1280px has 83px square tiles. No first-fold guarantee for arbitrarily long names/priorities or more rows of shortcuts.
+- At 390px with light OS preference and reduced motion: dark appearance, no horizontal overflow; a 171×86 wide tile and 82×82 square tile fit together. Keyboard focus reveals the shortcut name. Editing controls fit; changed a square tile to wide through the dialog successfully.
+- Direct favicon requests loaded GitHub, Drive, Figma and Spotify in the browser preview; Gmail/Calendar root favicon requests fell back to initials. Forced an image failure to verify initials retain the accessible link name and URL. URL tests cover fallback source selection independently of live site responses.
+
+- Final verification: formatting clean, all 26 tests pass, ZIP integrity passes, version 0.4.0, permissions storage + favicon, review files excluded. Screenshot: screenshots/idam-compact-home.png.

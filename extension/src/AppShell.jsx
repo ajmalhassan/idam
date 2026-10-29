@@ -165,12 +165,7 @@ export function App() {
                 </p>
                 <h1>
                   {greeting}
-                  {ws.settings.name && (
-                    <>
-                      ,<br />
-                      {ws.settings.name}
-                    </>
-                  )}
+                  {ws.settings.name && `, ${ws.settings.name}`}
                   <span>.</span>
                 </h1>
               </div>
