@@ -3,6 +3,7 @@ import { Button, TextField, MessageBanner } from '@pane-ui/react';
 import { Brand } from './Brand.jsx';
 import { MetroTheme } from './MetroTheme.jsx';
 import { useNow } from './useNow.js';
+import { greetingFor } from './greeting.js';
 import { useWorkspace } from './useWorkspace.js';
 import { Icon } from './Icon.jsx';
 import { Onboarding } from './Onboarding.jsx';
@@ -108,8 +109,7 @@ export function App() {
         onCancel={() => setSetupOpen(false)}
       />
     );
-  const greeting =
-    now.getHours() < 12 ? 'good morning' : now.getHours() < 18 ? 'good afternoon' : 'good evening';
+  const greeting = greetingFor(now);
   return (
     <MetroTheme accent={ws.settings.accent}>
       <div className="workspace">

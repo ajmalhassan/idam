@@ -24,9 +24,17 @@ Preview data uses browser localStorage. The installed extension uses `chrome.sto
 4. In **Settings → Tabs → New Tab Page**, choose the extension-controlled start page (the label can appear as **Controlled by Extension**).
 5. Open a new tab.
 
-Alternatively, extract `idam-new-tab-0.2.2.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
+Alternatively, extract `idam-new-tab-0.2.4.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
 
 To return to Momentum, disable Idam — New Tab and enable Momentum again.
+
+## Overnight greeting (0.2.4)
+
+Greetings follow the device’s local clock: morning from 05:00, afternoon from 12:00, and evening from 18:00 through 04:59. Midnight still starts a new calendar day for the daily priority.
+
+## Extension icons (0.2.3)
+
+The manifest now includes 16, 32, 48, and 128px PNG icons for installation and extension management. They are raster exports of `public/icon.svg`, which remains the page favicon. To update an existing unpacked installation, reload Idam in `vivaldi://extensions`; keep the same folder to retain its data.
 
 ## Branding update (0.2.2)
 

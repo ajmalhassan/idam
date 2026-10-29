@@ -46,3 +46,13 @@ Build measurement includes React: approximately 231 KB JavaScript (72 KB gzip) a
 ## 0.2.1 refactor — 2026-10-29
 
 No new Pane APIs were needed. Shared Theme/brand wrappers and the note autosave hook retain existing integration behavior. Style consolidation was compared against the original cascade at five viewport widths and in setup/dialog states. No reproducible upstream issue was found. A temporary case-only app/App filename collision during extraction was caught by esbuild; the shell is now AppShell.jsx and the build treats casing/undefined-import diagnostics as errors.
+
+
+## 0.2.3 extension icon fix — 2026-10-30
+
+The installed extension had no icon because only the new-tab HTML favicon was declared. Added the manifest `icons` map and raster PNG exports at 16, 32, 48, and 128px; Chromium does not support SVGs for manifest icons. This is an extension-packaging issue, not a Pane UI defect. The build regression check catches missing declarations, missing files, and mismatched PNG dimensions.
+
+
+## 0.2.4 overnight greeting — 2026-10-30
+
+The home greeting said good morning at 00:23 because the consumer classified all hours before noon as morning. Morning now begins at 05:00 local time, with evening continuing overnight. Boundary coverage includes the reported time. This was consumer logic; no Pane UI issue was filed.

@@ -52,3 +52,20 @@ Screenshot: screenshots/metro-start-0.2-home.png. Backup: ../.local/archive/rele
 Pre-Git backup paths above refer to this machine’s ignored local archive, not files included in a checkout. Historical screenshots remain alongside this document. The repository keeps the vendored Pane distribution while excluding generated application and icon-theme output.
 
 A fresh temporary checkout containing only Git candidate files passed an offline `npm ci` using the local package cache, `npm run check` (16 tests), and `npm run package`. Both icon themes regenerated from the candidate source. The candidate set includes Pane’s `dist/` and license and excludes dependencies, application bundles, generated icon output, ZIPs and `.local/`. This checks checkout completeness on the current macOS host, not cross-platform installation or a cold network dependency fetch.
+
+
+## 0.2.3 extension icons — 2026-10-30
+
+- Root cause: the HTML declared an SVG favicon, but the manifest had no extension `icons` entry. Chromium requires supported raster assets for manifest icons.
+- Extended the generated-build regression check; it failed with “Missing 16px extension icon” before the fix.
+- Added PNG exports of the existing SVG at 16, 32, 48 and 128px and declared them in the manifest. The page favicon is unchanged.
+- Formatting and all 16 tests pass. Rebuilt `dist/` and `idam-new-tab-0.2.3.zip`; verified every manifest icon exists inside the ZIP with matching PNG dimensions. Visually inspected the 128px export.
+- The installed everyday Vivaldi profile was not changed. Reload the existing unpacked extension to verify the icon in its management UI.
+
+
+## 0.2.4 overnight greeting — 2026-10-30
+
+- The previous greeting treated all local hours before noon as morning. Extracted that behavior and reproduced the midnight failure in a regression test before fixing the overnight range.
+- Morning now starts at 05:00, afternoon at 12:00, and evening at 18:00 and continues through 04:59. The existing local clock drives the greeting; calendar-day rollover is unchanged.
+- Regression cases cover midnight, the reported 00:23 time, 04:59/05:00, 11:59/12:00, 17:59/18:00 and 23:59. Formatting and all 17 tests pass; production build and ZIP integrity checks pass.
+- Updated the existing unpacked folder and packaged idam-new-tab-0.2.4.zip. The user's installed Vivaldi instance was not reloaded or modified.

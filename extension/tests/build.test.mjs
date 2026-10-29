@@ -20,4 +20,14 @@ test('built page loads bundled assets using their content fingerprints', async (
   const pkg = JSON.parse(await readFile(new URL('package.json', root), 'utf8'));
   assert.equal(manifest.version, pkg.version);
   assert.deepEqual(manifest.permissions, ['storage']);
+  // Installation and extension-management surfaces use manifest icons, not the page favicon.
+  for (const size of [16, 32, 48, 128]) {
+    const iconPath = manifest.icons?.[size];
+    assert.ok(iconPath, `Missing ${size}px extension icon`);
+    const icon = await readFile(new URL(`dist/${iconPath}`, root));
+    assert.deepEqual(icon.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+    assert.equal(icon.toString('ascii', 12, 16), 'IHDR');
+    assert.equal(icon.readUInt32BE(16), size);
+    assert.equal(icon.readUInt32BE(20), size);
+  }
 });
