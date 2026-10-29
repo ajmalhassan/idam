@@ -86,4 +86,8 @@ for old,new in {
 html=html.replace('.tab{font-size:12px', '.tab{font-size:13px')
 html=html.replace('.pins span{background:', '.pins span{border-radius:6px;background:')
 html=html.replace('Browser chrome study ·', 'Pane-aligned browser chrome ·')
+# Use the same Idam artwork as the extension for the specimen branding.
+brand_svg=(ROOT.parent/'extension'/'public'/'icon.svg').read_text(encoding='utf-8')
+html=html.replace('<h1>idam icons.</h1>', '<h1 class="brand">'+brand_svg+'<span>idam icons.</span></h1>')
+html=html.replace('</style>', '.brand{display:flex;align-items:center;gap:16px}.brand>svg{width:48px;height:48px;flex:none}</style>')
 (ROOT/'preview.html').write_text(html,encoding='utf-8')

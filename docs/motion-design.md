@@ -6,7 +6,7 @@ User-requested flow: animate Idam → Begin → a big, centered name prompt → 
 
 | Stage | Motion and behavior |
 | --- | --- |
-| Idam reveal | Four tiles assemble over 720ms with 110ms spacing. Wordmark resolves from 600–1360ms. |
+| Idam reveal | A single roof triangle and two lower squares assemble over 720ms with 110ms spacing. Wordmark resolves from 600–1360ms. |
 | Invitation | Begin and a short welcome line fade in over 500ms. Wait indefinitely for a click. Skip animation lands here, not on the name screen. |
 | Begin → name | Brand docks into the header over 760ms, then the centered name prompt turns in over 520ms. Name input receives focus; entry is optional. |
 | Name → places | Continue exits over 340ms, then places enters over 520ms. Back reverses it and retains the draft. |
@@ -16,7 +16,7 @@ User-requested flow: animate Idam → Begin → a big, centered name prompt → 
 
 ## Approved welcome proportions
 
-The reveal wordmark is 66px on desktop and 44px on narrow screens, with a proportionally scaled four-tile mark. The caption sits 16px below the lockup. Begin uses Pane’s default button padding and 44px minimum height, with the browser theme’s square-ended forward SVG geometry at a heavier 2.4-unit stroke for this compact control.
+The reveal wordmark is 66px on desktop and 44px on narrow screens, with a proportionally scaled three-piece home mark. The caption sits 16px below the lockup. Begin uses Pane’s default button padding and 44px minimum height, with the browser theme’s square-ended forward SVG geometry at a heavier 2.4-unit stroke for this compact control.
 
 ## Behavior and constraints
 

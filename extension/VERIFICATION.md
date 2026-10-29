@@ -112,3 +112,28 @@ A fresh temporary checkout containing only Git candidate files passed an offline
 - Direct favicon requests loaded GitHub, Drive, Figma and Spotify in the browser preview; Gmail/Calendar root favicon requests fell back to initials. Forced an image failure to verify initials retain the accessible link name and URL. URL tests cover fallback source selection independently of live site responses.
 
 - Final verification: formatting clean, all 26 tests pass, ZIP integrity passes, version 0.4.0, permissions storage + favicon, review files excluded. Screenshot: screenshots/idam-compact-home.png.
+
+## 0.4.1 general favicon lookup — 2026-10-30
+
+- Removed the Gmail-specific asset URL. The shared chain now tries the site's root icon, Google's lookup with an origin-only `domain_url`, Favicon.im with `throw-error-on-404=true`, then Chromium's favicon cache in installed builds. Failed images/timeouts advance; total failure displays initials. No broad website permissions added. Favicons remain directly on tile backgrounds.
+- Research and live visual checks caught that Google's `domain` parameter and DuckDuckGo's lookup returned the generic Google logo for mail/calendar subdomains. Google's `domain_url` returned the actual Gmail and Calendar icons. Favicon.im returned Gmail's icon, but a Google logo for Calendar; it is a secondary fallback, not evidence that all provider matches are correct. Its documented missing-icon option produced an image error for a nonexistent `.invalid` host.
+- Three-second per-source deadlines cancel pending image loads. Origin-based in-flight deduplication and bounded in-memory results reduce repeated lookups (success one hour, failure one minute). Local/reserved names and IP literals skip public providers; public-looking internal DNS names cannot be identified syntactically. Provider requests omit saved paths, queries, fragments and referrers.
+- All 29 automated tests pass, including fallback, stalled loads, concurrent lookup sharing, negative-cache expiry, unsafe URLs and local-address exclusions. Formatting, production build, ZIP integrity and `git diff --check` pass.
+- Production and isolated review bundles loaded Gmail, Calendar, GitHub, Drive, Figma and Spotify icons. Visually verified the Gmail/Calendar product logos at 1280×720; screenshot: `screenshots/idam-favicon-lookup.png`. The native Chromium fallback was not exercised in an installed Vivaldi profile, and that profile/data was untouched.
+- External providers are not guaranteed to cover every site or reflect new icons immediately; Google/native cache may return valid generic placeholders. This implementation uses domain resolvers, not an HTML scraper or authenticated-page fetcher. Details and research links are in README.
+- Rebuilt `extension/dist` and `idam-new-tab-0.4.1.zip`; review files excluded from ZIP. Existing unpacked users can reload the same folder without resetting data.
+
+## 0.4.2 inline task editing and alignment — 2026-10-30
+
+- Added an accessible pencil action to each task. Inline input selects the existing text; Enter/checkmark saves, Escape/cross cancels, and focus returns to the pencil. Empty text is blocked. Save failures keep the draft and local retry; cancel does not queue a later edit through the global retry mechanism.
+- Editing reads the current stored task before writing text, preserving its completion and creation time; a task already deleted before that read cannot be recreated. This is not an atomic cross-tab compare-and-swap; simultaneous writes retain the app's existing last-completed-write behavior.
+- Fixed the consumer CSS that top-aligned Pane checkbox labels while centering actions. Browser measurements at 1280×720 showed identical vertical centers for each task's text, edit button and delete button.
+- Browser verified Enter save, whitespace rejection, Escape cancellation/focus return, simulated storage failure with draft retention and successful retry, and persistence after reload. At 390px under light OS preference/reduced motion, the screen remains dark, editor/actions fit with no horizontal overflow, and focus is visible.
+- All 32 tests, formatting, production build, ZIP integrity, and diff whitespace checks pass. Updated `extension/dist` and generated `idam-new-tab-0.4.2.zip`. No installed browser profile was modified.
+- Also includes the approved full-accent tile colors: browser-computed colors match between selected setup tiles and home tiles for all six accents. Unselected setup choices retain their selection contrast.
+
+## Approved home logo — 2026-10-30
+
+- Replaced the split roof with one full-width triangle above two squares. Shared Brand markup now has three animated pieces; CSS scales the roof across both grid columns in the header and desktop/mobile reveal.
+- Updated the page SVG and all four manifest PNG sizes, review navigation/copy, current motion documentation, product README branding and generated Vivaldi icon specimen branding. Earlier screenshots and implementation plans remain historical records.
+- Browser verified three pieces and a roof matching the full mark width at 13px (header) and 52px (narrow reveal). Visually checked the 128px installation icon and the narrow welcome under reduced motion. All 32 tests, formatting, release ZIP integrity and both Vivaldi icon-theme builds pass.

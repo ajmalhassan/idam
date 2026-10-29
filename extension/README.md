@@ -1,5 +1,7 @@
 # Idam — New Tab
 
+<img src="public/icon.svg" alt="Idam home logo" width="64" height="64" />
+
 A dark Metro-inspired new-tab extension for Chromium browsers, including Vivaldi, built with the standalone Pane UI React package. Optional onboarding, a daily priority, editable shortcut tiles, tasks with undo, expandable notes, clock, web search, and accent settings. No backend or account.
 
 ## Preview
@@ -24,7 +26,7 @@ The default desktop layout was checked at 1280×720 with four tasks: priority, s
 
 ## Welcome and motion (0.3.2)
 
-First run: four tiles assemble into Idam, then a Begin button waits for you. Begin docks the brand and opens a large, centered name prompt. Continue opens familiar places with six accent choices: a staggered color wave previews your choice on the tiles. Newly added places keep that color on home; existing places retain their own colors. Back preserves your choices. Skip animation jumps to Begin; Skip setup saves your current choices. Returning tabs use a shorter entrance. Reduced motion removes movement while preserving the Begin step.
+First run: a single triangular roof and two square tiles assemble into Idam, then a Begin button waits for you. Begin docks the brand and opens a large, centered name prompt. Continue opens familiar places with six accent choices: a staggered color wave previews your choice on the tiles. Newly added places keep that color on home; existing places retain their own colors. Back preserves your choices. Skip animation jumps to Begin; Skip setup saves your current choices. Returning tabs use a shorter entrance. Reduced motion removes movement while preserving the Begin step.
 
 For a repeatable review, open **http://127.0.0.1:8765/review/index.html**. The page maps the flow and offers **Replay welcome** and **Everyday entrance**. It uses temporary memory data, independently of the normal preview and installed extension. Review files are excluded from the release ZIP.
 
@@ -36,7 +38,7 @@ For a repeatable review, open **http://127.0.0.1:8765/review/index.html**. The p
 4. In **Settings → Tabs → New Tab Page**, choose the extension-controlled start page (the label can appear as **Controlled by Extension**).
 5. Open a new tab.
 
-Alternatively, extract `idam-new-tab-0.4.0.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
+Alternatively, extract `idam-new-tab-0.4.2.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
 
 To return to Momentum, disable Idam — New Tab and enable Momentum again.
 
@@ -67,12 +69,24 @@ To upgrade a loaded unpacked installation, keep the same extension folder, rebui
 ## Usage and storage
 
 - Add shortcuts with a name and HTTP(S) URL. **Edit tiles** exposes editing and earlier/later controls.
-- Complete tasks with their checkbox. Deleting a task provides Undo for the latest deletion in that tab.
+- Complete tasks with their checkbox. Use the pencil to edit a task inline; Enter/checkmark saves and Escape/cross cancels. Empty edits are blocked, and failed saves retain the draft for retry. Editing preserves completion and creation time. Deleting a task provides Undo for the latest deletion in that tab.
 - Notes save after a short pause and on blur. Check the save status before closing the tab; failed saves retain the draft and offer retry in the notes editor and home banner. Abrupt browser/process termination can lose an edit that has not yet saved.
 - Settings changes, notes, and edits to the same record use the latest completed save across tabs. Separate task and shortcut records do not replace the whole workspace.
-- Everything is local to the browser profile. This version has no sync/export. Uninstalling the extension clears its local data.
+- Your workspace records are stored locally in the browser profile. This version has no sync/export. Uninstalling the extension clears its local data.
 
-Permissions are `storage` and `favicon`; the manifest also registers a new-tab override. Website icons load directly from each shortcut origin’s `/favicon.ico`, without a referrer or page path/query. If that fails, the installed extension tries Chromium’s favicon endpoint. The web preview has no browser favicon cache access. Failed image loads fall back to initials; the browser may supply its own generic icon on a cache miss. No third-party favicon service, remote scripts, remote fonts or background worker are used. Search and shortcut links navigate only when activated. See [Chromium favicon documentation](https://developer.chrome.com/docs/extensions/how-to/ui/favicons).
+Permissions remain `storage` and `favicon`; no access to all websites is requested. Icons use this sequence, with a three-second deadline per source:
+
+1. The saved site's `/favicon.ico`.
+2. Google's favicon lookup using `domain_url` (the scheme + origin, not the `domain` parameter), then Favicon.im's dedicated resolver (`throw-error-on-404=true`) on load failure/timeout. These services cover icons declared at other paths or on CDNs without site-specific code.
+3. Chromium's local favicon endpoint in the installed extension (unavailable in the web preview).
+4. Initials if every image fails to load.
+
+External lookup services receive **only the hostname/origin**, never the saved path, query, fragment or a referrer. IP addresses, single-label hosts, and common local/reserved suffixes bypass public services. This is a syntactic check, not DNS resolution: a private service using a public-looking DNS name can still be sent to a provider. Successful lookups are reused in memory for an hour; total failures for one minute; concurrent requests for the same origin are shared. Browser HTTP caching also applies. No shortcut/task/note data is changed by icon lookup.
+
+Provider coverage and freshness are not guaranteed: Google and Chromium can return a generic placeholder as a valid image, which cannot reliably be distinguished from a real icon through a cross-origin image element. Idam does not scrape authenticated pages, execute site scripts, or guarantee per-page icons for different apps on one origin. Favicon.im has a documented public API with rate limits; Google’s endpoint is an undocumented dependency. Both are external services without an uptime guarantee for this app. No remote scripts, remote fonts or background worker are used. Search and shortcut links navigate only when activated.
+
+Research: [Chromium's favicon endpoint](https://developer.chrome.com/docs/extensions/how-to/ui/favicons), [HTML icon declarations](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel#icon), [Favicon.im's API and missing-icon option](https://favicon.im/), and [ArchiveBox's use of Google's favicon lookup](https://docs.archivebox.io/en/master/Configuration.html#save-favicon).
+
 
 ## Development
 

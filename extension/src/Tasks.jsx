@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
-import { Checkbox, TextField, IconButton, Button } from '@pane-ui/react';
+import { TextField, IconButton, Button } from '@pane-ui/react';
 import { Icon } from './Icon.jsx';
+import { TaskRow } from './TaskRow.jsx';
 import { PREFIX } from './model.js';
 import { store } from './storage.js';
 const id = () => crypto.randomUUID();
@@ -49,25 +50,7 @@ export function Tasks({ ws, hidden }) {
         {ws.tasks.length > 0 ? (
           <ul className="tasks">
             {ws.tasks.map((task) => (
-              <li key={task.id} className={task.done ? 'task done' : 'task'}>
-                <Checkbox
-                  label={task.text}
-                  checked={task.done}
-                  onChange={(e) => {
-                    const done = e.target.checked;
-                    ws.run(
-                      () => store.set({ [`${PREFIX}task.${task.id}`]: { ...task, done } }),
-                      `task.${task.id}`,
-                    );
-                  }}
-                />
-                <IconButton
-                  className="delete-task"
-                  label={`Delete ${task.text}`}
-                  icon={<Icon name="close" />}
-                  onClick={() => removeTask(task)}
-                />
-              </li>
+              <TaskRow key={task.id} task={task} run={ws.run} remove={removeTask} />
             ))}
           </ul>
         ) : (

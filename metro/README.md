@@ -1,5 +1,7 @@
 # Idam for Vivaldi
 
+<img src="../extension/public/icon.svg" alt="Idam home logo" width="64" height="64" />
+
 A Windows Phone inspired custom CSS theme, designed around **vertical tabs**: near-black surfaces, square corners, a solid blue active tab, and optional icon-only pinned tiles.
 
 ## Install

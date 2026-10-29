@@ -21,12 +21,10 @@
   color: #f5f5f7;
 }
 .reveal-lockup .mark {
-  grid-template-columns: repeat(2, 30px);
-  gap: 18px;
+  --mark-unit: 30px;
+  --mark-gap: 18px;
 }
 .reveal-lockup .mark i {
-  width: 30px;
-  height: 30px;
   transform-origin: left center;
 }
 .brand-name {
@@ -252,29 +250,14 @@
   width: 28px;
   height: 28px;
 }
-.metro-start[data-metro-accent='blue'] {
-  --place-color: #154b6d;
-}
-.metro-start[data-metro-accent='violet'] {
-  --place-color: #49366e;
-}
-.metro-start[data-metro-accent='teal'] {
-  --place-color: #28565d;
-}
-.metro-start[data-metro-accent='magenta'] {
-  --place-color: #792751;
-}
-.metro-start[data-metro-accent='orange'] {
-  --place-color: #a74317;
-}
-.metro-start[data-metro-accent='green'] {
-  --place-color: #315d29;
+.metro-start {
+  --place-color: var(--wp-accent);
 }
 .shortcut.tone-magenta {
-  background: #792751;
+  background: #a90068;
 }
 .shortcut.tone-green {
-  background: #315d29;
+  background: #087546;
 }
 .onboarding {
   --wp-stagger-duration: 500ms;
@@ -311,12 +294,8 @@
     letter-spacing: 8px;
   }
   .reveal-lockup .mark {
-    grid-template-columns: repeat(2, 20px);
-    gap: 12px;
-  }
-  .reveal-lockup .mark i {
-    width: 20px;
-    height: 20px;
+    --mark-unit: 20px;
+    --mark-gap: 12px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

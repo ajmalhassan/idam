@@ -2,8 +2,7 @@ export function Brand() {
   return (
     <span className="wordmark">
       <span className="mark" aria-hidden="true">
-        <i />
-        <i />
+        <i className="mark-roof" />
         <i />
         <i />
       </span>

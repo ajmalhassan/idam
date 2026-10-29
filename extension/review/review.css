@@ -11,11 +11,13 @@
   font-size: 12px;
 }
 .review-bar a {
+  display: flex;
+  align-items: center;
   color: #ededf0;
   text-decoration: none;
   letter-spacing: 2px;
 }
-.review-bar a span {
+.review-bar .review-caption {
   color: #92929d;
   letter-spacing: 0;
   margin-left: 16px;
@@ -116,7 +118,7 @@
     padding: 12px 16px;
     flex-wrap: wrap;
   }
-  .review-bar a span {
+  .review-bar .review-caption {
     display: none;
   }
   .review-bar button {

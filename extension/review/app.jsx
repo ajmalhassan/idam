@@ -7,6 +7,7 @@ import '../src/motion.css';
 import '../src/home.css';
 import './review.css';
 import { App } from '../src/AppShell.jsx';
+import { Brand } from '../src/Brand.jsx';
 import { store } from './storage.js';
 import { setupUpdates } from '../src/lifecycle.js';
 
@@ -35,7 +36,7 @@ function Review() {
     <>
       <div className="review-bar">
         <a href="./index.html">
-          IDAM <span>motion study / 02</span>
+          <Brand /> <span className="review-caption">motion study / 02</span>
         </a>
         <div>
           <button onClick={() => replay()}>Replay welcome</button>
@@ -54,7 +55,7 @@ function Review() {
             <br />
             entrance<span>.</span>
           </h1>
-          <p className="review-lede">From four small tiles to a place that feels like yours.</p>
+          <p className="review-lede">A roof, two tiles, and a place that feels like yours.</p>
           <button className="review-start" onClick={() => replay()}>
             Experience the welcome <span>↗</span>
           </button>
@@ -63,7 +64,8 @@ function Review() {
               <span>01 / REVEAL + BEGIN</span>
               <strong>Idam appears</strong>
               <p>
-                Four tiles turn into place. The name resolves. Begin appears, ready when you are.
+                A roof and two tiles turn into place. The name resolves. Begin appears, ready when
+                you are.
               </p>
             </li>
             <li>

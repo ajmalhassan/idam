@@ -39,14 +39,19 @@ svg {
   color: rgb(176, 176, 187);
 }
 .mark {
+  --mark-unit: 5px;
+  --mark-gap: 3px;
   display: grid;
-  grid-template-columns: 5px 5px;
-  gap: 3px;
+  grid-template-columns: repeat(2, var(--mark-unit));
+  gap: var(--mark-gap);
 }
 .mark i {
-  width: 5px;
-  height: 5px;
-  background: var(--wp-accent-text);
+  height: var(--mark-unit);
+  background: var(--wp-accent-text, #62b7ff);
+}
+.mark .mark-roof {
+  grid-column: 1 / -1;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 h1 span {
   color: var(--wp-accent-text);
@@ -109,7 +114,7 @@ h1 span {
   line-height: 1;
 }
 .shortcut.tone-orange {
-  background: rgb(167, 67, 23);
+  background: #a84400;
 }
 .shortcut.tone-gray {
   background: rgb(40, 40, 47);
@@ -157,18 +162,50 @@ h1 span {
   text-decoration: line-through;
   color: rgb(141, 141, 153);
 }
-.task .delete-task {
-  background: transparent;
-  border: 0px;
-  min-width: 30px;
-  min-height: 40px;
-  width: 30px;
-  padding: 5px;
-  color: rgb(146, 146, 159);
+.task-actions {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
 }
-.delete-task svg {
-  width: 15px;
-  height: 15px;
+.task .task-actions .wp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  min-width: 36px;
+  min-height: 44px;
+  width: 36px;
+  padding: 8px;
+  color: var(--wp-muted);
+}
+.task-actions svg {
+  width: 16px;
+  height: 16px;
+}
+.task-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  width: 100%;
+  gap: 4px 8px;
+  padding: 6px 0;
+}
+.task-editor .wp-text-field {
+  width: 100%;
+  min-width: 0;
+  font-size: 14px;
+}
+.task-edit-hint,
+.task-edit-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--wp-muted);
+}
+.task-edit-error {
+  color: #ffb4b4;
 }
 .empty-tasks {
   margin: 6px 0px 20px;
@@ -497,13 +534,13 @@ h2 {
   overflow-wrap: anywhere;
 }
 .shortcut.tone-blue {
-  background: rgb(21, 75, 109);
+  background: #0078d7;
 }
 .shortcut.tone-teal {
-  background: rgb(40, 86, 93);
+  background: #087969;
 }
 .shortcut.tone-violet {
-  background: rgb(73, 54, 110);
+  background: #6138b1;
 }
 .empty-shortcuts {
   font-size: 13px;
@@ -541,7 +578,7 @@ h2 {
   width: 100%;
 }
 .task .wp-selection-label {
-  align-items: flex-start;
+  align-items: center;
 }
 .notes-panel {
   margin-top: 16px;
