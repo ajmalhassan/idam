@@ -1,5 +1,5 @@
 import { normalizePriority } from './priority.js';
-export const TONES = ['blue', 'teal', 'violet', 'orange', 'gray'];
+export const TONES = ['blue', 'teal', 'violet', 'magenta', 'orange', 'green', 'gray'];
 export function safeUrl(value) {
   if (typeof value !== 'string') throw new Error('Enter a website address.');
   const raw = value.trim();

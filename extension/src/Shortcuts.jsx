@@ -32,8 +32,8 @@ export function Shortcuts({
         className="shortcut-grid"
         show={show}
         mode="layered"
-        duration={firstArrival ? 360 : 220}
-        interval={firstArrival ? 45 : 22}
+        duration={firstArrival ? 620 : 300}
+        interval={firstArrival ? 65 : 26}
         items={visibleShortcuts.map((s) => ({
           id: s.id,
           size: s.size === 'wide' ? 'wide' : 'small',

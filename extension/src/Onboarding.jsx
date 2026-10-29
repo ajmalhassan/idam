@@ -1,6 +1,6 @@
 import { useState, useReducer, useRef, useLayoutEffect, useEffect } from 'react';
-import { Button, Field, TextField, Transition, Stagger } from '@pane-ui/react';
-import { DEFAULT_SHORTCUTS } from './model.js';
+import { Button, TextField, Transition, Stagger } from '@pane-ui/react';
+import { DEFAULT_SHORTCUTS, ACCENTS } from './model.js';
 import { setupUpdates } from './lifecycle.js';
 import { store } from './storage.js';
 import { Brand } from './Brand.jsx';
@@ -23,6 +23,7 @@ export function Onboarding({
   const reduced = useReducedMotion();
   const brandTarget = useRef(null);
   const heading = useRef(null);
+  const nameField = useRef(null);
   const saving = useRef(false);
   const [name, setName] = useState(settings.name || ''),
     [accent, setAccent] = useState(settings.accent || 'blue');
@@ -31,6 +32,7 @@ export function Onboarding({
     revisit ? existing : ['mail', 'github', 'calendar', 'figma'],
   );
   const busy = phase !== 'ready';
+  const brandScreen = ['intro', 'begin', 'docking'].includes(phase);
   useLayoutEffect(() => {
     if (phase === 'preparing') dispatch({ type: 'PREPARED' });
   }, [phase]);
@@ -40,7 +42,7 @@ export function Onboarding({
   const entered = () => {
     dispatch({ type: 'ENTERED' });
     if (document.activeElement === document.body || !document.activeElement?.closest('input')) {
-      heading.current?.focus({ preventScroll: true });
+      (step === 0 ? nameField : heading).current?.focus({ preventScroll: true });
     }
   };
   const finish = async () => {
@@ -57,9 +59,9 @@ export function Onboarding({
   };
   return (
     <MetroTheme accent={accent}>
-      <main className="workspace onboarding" data-journey-phase={phase}>
+      <main className="workspace onboarding" data-journey-phase={phase} data-setup-step={step}>
         <div className="topline">
-          <div ref={brandTarget} className={phase === 'intro' ? 'brand-destination' : undefined}>
+          <div ref={brandTarget} className={brandScreen ? 'brand-destination' : undefined}>
             <Brand />
           </div>
           <Button
@@ -79,54 +81,40 @@ export function Onboarding({
             </Button>
           </div>
         )}
-        {phase === 'intro' && (
+        {brandScreen && (
           <BrandReveal
+            phase={phase}
             targetRef={brandTarget}
-            onComplete={() => dispatch({ type: 'INTRO_DONE' })}
+            onRevealed={() => dispatch({ type: 'INTRO_DONE' })}
+            onBegin={() => dispatch({ type: 'BEGIN' })}
+            onComplete={() => dispatch({ type: 'DOCKED' })}
           />
         )}
         <Transition
           show={['entering', 'ready', 'saving'].includes(phase)}
           preset="turnstile"
           direction={direction}
-          duration={reduced ? 0 : phase === 'exiting' ? 180 : 260}
+          duration={reduced ? 0 : phase === 'exiting' ? 340 : 520}
           onEntered={entered}
           onExited={() => dispatch({ type: 'EXITED' })}
         >
-          <Stagger show className="setup-content" key={step} interval={35}>
+          <Stagger
+            show
+            className={`setup-content ${step === 0 ? 'name-step' : 'places-step'}`}
+            key={step}
+            interval={60}
+          >
             <p className="eyebrow">
-              {step === 0 ? 'A LITTLE SPACE FOR YOUR DAY' : 'YOUR EVERYDAY ESSENTIALS'}
+              {step === 0 ? 'FIRST, A LITTLE HELLO' : 'MAKE THIS SPACE YOURS'}
             </p>
             <h1 ref={heading} tabIndex={-1}>
-              {step === 0 ? (
-                <>
-                  make yourself
-                  <br />
-                  at home
-                </>
-              ) : (
-                <>
-                  familiar
-                  <br />
-                  places
-                </>
-              )}
-              <span>.</span>
+              {step === 0 ? 'what should we call you' : 'familiar places'}
+              <span>{step === 0 ? '?' : '.'}</span>
             </h1>
             <p className="setup-intro">
-              {step === 0 ? (
-                <>
-                  Your places, a clear priority, and room to think.
-                  <br />
-                  Start with a few things that feel like you.
-                </>
-              ) : (
-                <>
-                  Choose a few shortcuts to start with.
-                  <br />
-                  Add your own websites whenever you like.
-                </>
-              )}
+              {step === 0
+                ? 'A name makes it feel a little more like home.'
+                : 'Choose your everyday places. Find a color that feels like you.'}
             </p>
             {step === 0 ? (
               <form
@@ -135,29 +123,44 @@ export function Onboarding({
                   dispatch({ type: 'GO', step: 1 });
                 }}
               >
-                <Field label="What should we call you?" description="Optional">
-                  <TextField
-                    className="setup-name"
-                    placeholder="Your name"
-                    value={name}
-                    maxLength={40}
-                    disabled={phase === 'saving'}
-                    onChange={(e) => setName(e.target.value)}
-                    autoComplete="off"
-                  />
-                </Field>
+                <TextField
+                  ref={nameField}
+                  className="setup-name"
+                  aria-label="Your name"
+                  aria-describedby="name-optional"
+                  placeholder="Your name"
+                  value={name}
+                  maxLength={40}
+                  disabled={phase === 'saving'}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="given-name"
+                />
+                <p id="name-optional" className="setup-caption">
+                  Optional. This stays on your device.
+                </p>
+                <div className="setup-actions">
+                  <Button type="submit" variant="accent" disabled={busy}>
+                    Continue <Icon name="arrow" />
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <>
+                {revisit && (
+                  <p className="setup-caption">
+                    Existing shortcuts stay as they are. Add more here; edit or remove them from
+                    home.
+                  </p>
+                )}
                 <fieldset className="accent-options">
-                  <legend>Pick your accent</legend>
+                  <legend>Make it your color</legend>
                   <div className="swatches">
-                    {(revisit
-                      ? ['blue', 'violet', 'magenta', 'teal', 'orange', 'green']
-                      : ['blue', 'violet', 'magenta', 'teal']
-                    ).map((color) => (
+                    {ACCENTS.map((color) => (
                       <Button
                         key={color}
                         type="button"
                         className={'swatch swatch-' + color}
-                        disabled={phase === 'saving'}
+                        disabled={busy}
                         aria-label={color}
                         aria-pressed={accent === color}
                         onClick={() => setAccent(color)}
@@ -171,25 +174,11 @@ export function Onboarding({
                     ))}
                   </div>
                 </fieldset>
-                <div className="setup-actions">
-                  <Button type="submit" variant="accent" disabled={busy}>
-                    Make it mine <Icon name="arrow" />
-                  </Button>
-                  <span>You can change this anytime.</span>
-                </div>
-              </form>
-            ) : (
-              <>
-                {revisit && (
-                  <p className="setup-caption">
-                    Existing shortcuts stay as they are. Add more here; edit or remove them from
-                    home.
-                  </p>
-                )}
                 <div className="setup-shortcuts">
-                  {DEFAULT_SHORTCUTS.map((s) => (
+                  {DEFAULT_SHORTCUTS.map((s, index) => (
                     <Button
                       className="setup-choice"
+                      style={{ '--color-delay': `${index * 55}ms` }}
                       key={s.id}
                       aria-pressed={selected.includes(s.id)}
                       disabled={busy || (revisit && existing.includes(s.id))}

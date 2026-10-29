@@ -3,11 +3,17 @@ import assert from 'node:assert/strict';
 import { createJourney, journeyReducer as reduce } from '../src/journey.js';
 const ready = () => reduce(reduce(createJourney(true), { type: 'PREPARED' }), { type: 'ENTERED' });
 
-test('intro skip opens welcome without saving or completing setup', () => {
+test('intro completion waits at Begin; only Begin starts the name screen', () => {
   const initial = createJourney(false);
   assert.equal(initial.phase, 'intro');
   const next = reduce(initial, { type: 'INTRO_DONE' });
-  assert.equal(next.phase, 'preparing');
+  assert.equal(next.phase, 'begin');
+  assert.equal(reduce(next, { type: 'PREPARED' }), next);
+  assert.equal(reduce(next, { type: 'SAVE' }), next);
+  const docking = reduce(next, { type: 'BEGIN' });
+  assert.equal(docking.phase, 'docking');
+  assert.equal(reduce(docking, { type: 'BEGIN' }), docking);
+  assert.equal(reduce(docking, { type: 'DOCKED' }).phase, 'preparing');
   assert.equal(next.step, 0);
   assert.equal(reduce(next, { type: 'SAVED' }), next);
 });

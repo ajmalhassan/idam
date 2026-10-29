@@ -48,3 +48,8 @@ Completed: tasks 1–3. Reducer tests were added before implementation, then all
 Final review: fresh-context reviewer found no blocking defects. Minor timing note: welcome fully settles around 1.4s; retained for visual review, with actual timing documented in the spec. The extra approximately 0.2s is the cost of the current stagger.
 
 Ruling: preserve the feature branch for the user's requested review; do not merge while they are away. Preexisting Vivaldi theme/icon edits are outside this motion change and remain in the checkout. Cost: the new release awaits integration after review.
+
+
+## Revision 2 — user-directed pacing and color
+
+Completed the explicit requested revision: wait at Begin after reveal, separate centered name prompt, move accents beside familiar places, animate a per-tile color wave, retain the selected color for new home tiles, and slow the transition cadence. New reducer and lifecycle assertions failed for the previous behavior, then passed; full suite 23/23. All-six-accent decoding regression also passes. Browser checks and independent review are recorded in extension/VERIFICATION.md. Current timing authority: docs/motion-design.md; revision 1 timing targets above are historical.

@@ -16,9 +16,9 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 
 Preview data uses browser localStorage. The installed extension uses `chrome.storage.local`; the two workspaces are separate.
 
-## Welcome and motion (0.3.0)
+## Welcome and motion (0.3.1)
 
-First run: four tiles assemble into Idam, the brand docks in the header, then name/accent and shortcut choices lead into home. Back reverses the turnstile; Skip intro opens setup; Skip setup saves the defaults. Returning tabs use a shorter entrance. Reduced-motion preferences settle the screen immediately.
+First run: four tiles assemble into Idam, then a Begin button waits for you. Begin docks the brand and opens a large, centered name prompt. Continue opens familiar places with six accent choices: a staggered color wave previews your choice on the tiles. Newly added places keep that color on home; existing places retain their own colors. Back preserves your choices. Skip animation jumps to Begin; Skip setup saves your current choices. Returning tabs use a shorter entrance. Reduced motion removes movement while preserving the Begin step.
 
 For a repeatable review, open **http://127.0.0.1:8765/review/index.html**. The page maps the flow and offers **Replay welcome** and **Everyday entrance**. It uses temporary memory data, independently of the normal preview and installed extension. Review files are excluded from the release ZIP.
 
@@ -30,7 +30,7 @@ For a repeatable review, open **http://127.0.0.1:8765/review/index.html**. The p
 4. In **Settings → Tabs → New Tab Page**, choose the extension-controlled start page (the label can appear as **Controlled by Extension**).
 5. Open a new tab.
 
-Alternatively, extract `idam-new-tab-0.3.0.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
+Alternatively, extract `idam-new-tab-0.3.1.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
 
 To return to Momentum, disable Idam — New Tab and enable Momentum again.
 

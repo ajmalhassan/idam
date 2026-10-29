@@ -135,3 +135,202 @@
     transition: none;
   }
 }
+
+/* The welcome is paced by the person: reveal, invitation, then their name. */
+.reveal-center {
+  display: grid;
+  justify-items: center;
+  gap: 40px;
+  padding: 32px;
+}
+.reveal-invitation {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 500ms ease,
+    transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-invitation p {
+  color: #aaaab6;
+  font-size: 17px;
+  margin: 0 0 32px;
+}
+.brand-reveal[data-reveal-phase='begin'] .reveal-invitation {
+  opacity: 1;
+  transform: none;
+}
+.begin-button.wp-button {
+  min-width: 150px;
+  min-height: 52px;
+  justify-content: center;
+  gap: 36px;
+}
+.onboarding > .wp-transition {
+  min-height: calc(100svh - 140px);
+  display: grid;
+  align-items: center;
+}
+.onboarding .setup-content {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 44px 0;
+  text-align: center;
+}
+.onboarding .name-step {
+  max-width: 880px;
+}
+.onboarding .name-step h1 {
+  font-size: clamp(40px, 5.2vw, 76px);
+  line-height: 1.12;
+  letter-spacing: -2.5px;
+  margin: 22px 0;
+}
+.onboarding .places-step h1 {
+  font-size: clamp(44px, 4.5vw, 64px);
+  margin: 16px 0;
+}
+.onboarding .setup-intro {
+  margin-bottom: 28px;
+}
+.onboarding .name-step form {
+  max-width: 580px;
+  margin: 0 auto;
+}
+.onboarding .setup-name.wp-text-field {
+  width: 100%;
+  text-align: center;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 300;
+  padding: 14px 8px;
+  border-bottom-color: #777782;
+  border-radius: 0;
+}
+.onboarding .setup-name.wp-text-field:focus-visible {
+  outline: none;
+  border-bottom: 2px solid var(--wp-accent-text);
+}
+.onboarding .setup-actions,
+.onboarding .setup-progress,
+.onboarding .swatches {
+  justify-content: center;
+}
+.onboarding .setup-actions {
+  margin-top: 30px;
+}
+.onboarding .setup-progress {
+  margin-top: 28px;
+}
+.onboarding .accent-options {
+  margin: 24px 0 30px;
+}
+.onboarding .setup-shortcuts {
+  max-width: 620px;
+  margin: 0 auto;
+  gap: 12px;
+}
+.onboarding .setup-choice.wp-button {
+  min-height: 136px;
+  padding: 20px;
+  background-color: color-mix(in srgb, var(--place-color) 28%, #15151b);
+  border-color: color-mix(in srgb, var(--place-color) 60%, #41414d);
+  transition:
+    background-color 680ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--color-delay, 0ms),
+    border-color 380ms ease,
+    box-shadow 220ms ease;
+}
+.onboarding .setup-choice.wp-button[aria-pressed='true'] {
+  background-color: var(--place-color);
+  border-color: #ffffff70;
+}
+.onboarding .setup-choice.wp-button:hover {
+  box-shadow: inset 0 0 0 1px #ffffff80;
+}
+.onboarding .setup-choice.wp-button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+.onboarding .choice-check {
+  color: white;
+}
+.onboarding .setup-choice > svg {
+  width: 28px;
+  height: 28px;
+}
+.metro-start[data-metro-accent='blue'] {
+  --place-color: #154b6d;
+}
+.metro-start[data-metro-accent='violet'] {
+  --place-color: #49366e;
+}
+.metro-start[data-metro-accent='teal'] {
+  --place-color: #28565d;
+}
+.metro-start[data-metro-accent='magenta'] {
+  --place-color: #792751;
+}
+.metro-start[data-metro-accent='orange'] {
+  --place-color: #a74317;
+}
+.metro-start[data-metro-accent='green'] {
+  --place-color: #315d29;
+}
+.shortcut.tone-magenta {
+  background: #792751;
+}
+.shortcut.tone-green {
+  background: #315d29;
+}
+.onboarding {
+  --wp-stagger-duration: 500ms;
+}
+.first-arrival .home-enter {
+  animation-duration: 640ms;
+}
+.first-arrival .home-enter.priority-enter {
+  animation-delay: 120ms;
+}
+.first-arrival .home-enter.daily-panel {
+  animation-delay: 220ms;
+}
+.first-arrival .home-enter.page-footer {
+  animation-delay: 280ms;
+}
+@media (max-width: 650px) {
+  .onboarding .setup-content {
+    padding: 32px 0;
+  }
+  .onboarding .name-step h1 {
+    letter-spacing: -1.5px;
+  }
+  .onboarding .setup-intro {
+    font-size: 14px;
+  }
+  .onboarding .setup-choice.wp-button {
+    min-height: 112px;
+    padding: 16px;
+  }
+  .reveal-lockup .wordmark {
+    gap: 30px;
+    font-size: 33px;
+    letter-spacing: 6px;
+  }
+  .reveal-lockup .mark {
+    grid-template-columns: repeat(2, 15px);
+    gap: 9px;
+  }
+  .reveal-lockup .mark i {
+    width: 15px;
+    height: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-invitation,
+  .onboarding .setup-choice.wp-button {
+    transition: none;
+  }
+  .onboarding .wp-stagger-item {
+    animation: none;
+  }
+}

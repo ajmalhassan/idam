@@ -107,3 +107,20 @@ test('invalid priorities and key mismatches cannot affect the current day', () =
   assert.equal(decoded.priorities[0].text, 'valid');
   assert.equal(decoded.settings.showNotes, true);
 });
+
+test('newly selected places carry the chosen accent into home without recoloring existing places', () => {
+  const existing = { id: 'github', title: 'my github', tone: 'orange' };
+  const updates = setupUpdates(
+    { [PREFIX + 'shortcut.github']: existing },
+    { name: 'Ajmal', accent: 'teal', selected: ['mail', 'github'] },
+  );
+  assert.equal(updates[PREFIX + 'shortcut.mail'].tone, 'teal');
+  assert.equal(updates[PREFIX + 'shortcut.github'], undefined);
+});
+
+test('every setup accent survives record decoding as a shortcut tone', () => {
+  for (const accent of ['blue', 'violet', 'magenta', 'teal', 'orange', 'green']) {
+    const updates = setupUpdates({}, { name: '', accent, selected: ['mail'] });
+    assert.equal(decodeRecords(updates).shortcuts[0].tone, accent);
+  }
+});

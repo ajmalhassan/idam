@@ -2,11 +2,12 @@ import { useLayoutEffect, useRef } from 'react';
 import { Button } from '@pane-ui/react';
 import { Brand } from './Brand.jsx';
 
-export function BrandReveal({ targetRef, onComplete }) {
+export function BrandReveal({ phase, targetRef, onRevealed, onBegin, onComplete }) {
   const lockup = useRef(null);
-  const complete = useRef(onComplete);
-  complete.current = onComplete;
+  const callbacks = useRef({ onRevealed, onComplete });
+  callbacks.current = { onRevealed, onComplete };
   useLayoutEffect(() => {
+    if (phase === 'begin') return;
     const node = lockup.current;
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
     let done = false;
@@ -14,7 +15,7 @@ export function BrandReveal({ targetRef, onComplete }) {
     const finish = () => {
       if (done) return;
       done = true;
-      complete.current();
+      callbacks.current[phase === 'intro' ? 'onRevealed' : 'onComplete']();
     };
     const settlePreference = () => {
       if (media.matches) finish();
@@ -28,44 +29,50 @@ export function BrandReveal({ targetRef, onComplete }) {
     if (media.matches || document.hidden || !node.animate) finish();
     else {
       try {
-        node.querySelectorAll('.mark i').forEach((tile, index) => {
+        if (phase === 'intro') {
+          node.querySelectorAll('.mark i').forEach((tile, index) => {
+            animations.push(
+              tile.animate(
+                [
+                  { opacity: 0, transform: 'perspective(500px) rotateY(-78deg) translateY(16px)' },
+                  { opacity: 1, transform: 'none' },
+                ],
+                {
+                  duration: 720,
+                  delay: index * 110,
+                  easing: 'cubic-bezier(.16,1,.3,1)',
+                  fill: 'both',
+                },
+              ),
+            );
+          });
           animations.push(
-            tile.animate(
+            node.querySelector('.brand-name').animate(
               [
-                { opacity: 0, transform: 'perspective(500px) rotateY(-78deg) translateY(12px)' },
+                { opacity: 0, transform: 'translateX(16px)' },
                 { opacity: 1, transform: 'none' },
               ],
-              {
-                duration: 380,
-                delay: index * 55,
-                easing: 'cubic-bezier(.16,1,.3,1)',
-                fill: 'both',
-              },
+              { duration: 760, delay: 600, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both' },
             ),
           );
-        });
-        animations.push(
-          node.querySelector('.brand-name').animate(
-            [
-              { opacity: 0, transform: 'translateX(12px)' },
-              { opacity: 1, transform: 'none' },
-            ],
-            { duration: 320, delay: 220, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both' },
-          ),
-        );
-        const from = node.getBoundingClientRect();
-        const to = targetRef.current.getBoundingClientRect();
-        const docking = node.animate(
-          [
-            { transform: 'translate(0,0) scale(1)' },
-            {
-              transform: `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(${to.height / from.height})`,
-            },
-          ],
-          { duration: 360, delay: 620, easing: 'cubic-bezier(.65,0,.2,1)', fill: 'both' },
-        );
-        animations.push(docking);
-        void docking.finished.then(finish, finish);
+        } else {
+          const from = node.getBoundingClientRect();
+          const to = targetRef.current.getBoundingClientRect();
+          animations.push(
+            node.animate(
+              [
+                { transform: 'translate(0,0) scale(1)' },
+                {
+                  transform: `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(${to.height / from.height})`,
+                },
+              ],
+              { duration: 760, easing: 'cubic-bezier(.65,0,.2,1)', fill: 'both' },
+            ),
+          );
+        }
+        void Promise.all(
+          animations.map((animation) => animation.finished.catch(() => undefined)),
+        ).then(finish);
       } catch {
         finish();
       }
@@ -77,15 +84,34 @@ export function BrandReveal({ targetRef, onComplete }) {
       document.removeEventListener('visibilitychange', settleHidden);
       window.removeEventListener('resize', finish);
     };
-  }, [targetRef]);
+  }, [phase, targetRef]);
   return (
-    <div className="brand-reveal" aria-label="Welcome to Idam">
-      <div className="reveal-lockup" ref={lockup}>
-        <Brand />
+    <div className="brand-reveal" data-reveal-phase={phase} aria-label="Welcome to Idam">
+      <div className="reveal-center">
+        <div className="reveal-lockup" ref={lockup}>
+          <Brand />
+        </div>
+        <div
+          className="reveal-invitation"
+          inert={phase !== 'begin'}
+          aria-hidden={phase !== 'begin'}
+        >
+          <p>A little space for your day.</p>
+          <Button
+            variant="accent"
+            className="begin-button"
+            disabled={phase !== 'begin'}
+            onClick={onBegin}
+          >
+            Begin <span aria-hidden="true">↗</span>
+          </Button>
+        </div>
       </div>
-      <Button className="skip-intro quiet-button" variant="subtle" onClick={onComplete}>
-        Skip intro
-      </Button>
+      {phase === 'intro' && (
+        <Button className="skip-intro quiet-button" variant="subtle" onClick={onRevealed}>
+          Skip animation
+        </Button>
+      )}
     </div>
   );
 }

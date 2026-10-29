@@ -27,7 +27,7 @@ export function setupUpdates(raw, draft, { revisit = false } = {}) {
   for (const shortcut of DEFAULT_SHORTCUTS) {
     const key = PREFIX + 'shortcut.' + shortcut.id;
     if (draft.selected?.includes(shortcut.id) && !raw[key])
-      values[key] = { ...shortcut, size: 'small' };
+      values[key] = { ...shortcut, tone: settings.accent, size: 'small' };
   }
   return values;
 }

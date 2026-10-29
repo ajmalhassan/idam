@@ -82,3 +82,13 @@ A fresh temporary checkout containing only Git candidate files passed an offline
 - Visually inspected the reveal at an intermediate frame, logo docking geometry, full home, and the replay flow map. A 300ms animation sample was paused only for inspection; review page runs at normal speed. Screenshot: screenshots/idam-motion-map.png.
 - Independent code review found no blocking defects. The full welcome settles around 1.4 seconds rather than the original approximate 1.2-second target; documented as a timing choice for visual review.
 - This pass tested the production bundle in Chromium, not a fresh native Vivaldi installation. Existing installed workspace data was not changed. The same unpacked dist folder is rebuilt for the user to reload after review.
+
+
+## 0.3.1 paced welcome and live color — 2026-10-30
+
+- User-requested revision: Idam reveal → explicit Begin → centered large name prompt → places and accent picker → home. Revealing or skipping the animation does not advance beyond Begin. Brand docking is 760ms; setup turns are 340ms out / 520ms in; first home arrival settles around 920ms.
+- Updated reducer test reproduced the old automatic advance before the fix. New lifecycle test reproduced new tiles ignoring the chosen accent, then passed after setup seeds their tone. Added coverage for all six accents through record decoding. Existing records remain unchanged.
+- Formatting and all 23 tests pass. Independent read-only code review found no blocking defects and independently ran the 23-test suite.
+- Browser checks: Begin remained waiting after the reveal; duplicate Begin did not advance twice; name field focused after entry; Back preserved the name and accent. A sampled blue→magenta transition showed distinct intermediate colors across tiles in order, then all selected tiles settled on magenta. Rapid teal→green→magenta clicks ended on magenta. The saved home tiles matched the preview.
+- At 390px with light OS preference and reduced motion, Begin remains explicit, name and places have no horizontal overflow, backgrounds remain dark, and accent changes have no running animations. At desktop width, a simulated storage write failure kept places actionable; retry saved the name and green tile colors and reached home.
+- Preview uses memory only. Production data test ran in a separate isolated browser context; the installed Vivaldi profile was not changed. Review and ZIP remain separate.

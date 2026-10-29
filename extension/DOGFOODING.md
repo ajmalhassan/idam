@@ -63,3 +63,8 @@ The home greeting said good morning at 00:23 because the consumer classified all
 Used Pane Transition, Stagger and TileSequence for setup turnstiles and the home wave. Initially visible Transition/TileSequence instances intentionally skip entrances, so the consumer changes show from false to true before paint. TileSequence adds layout wrappers: grid spans and tile heights are assigned to those wrappers in consumer CSS. Press transforms remain on the inner tile.
 
 Checked inert exits, rapid navigation, externally cancelled animation recovery, reduced motion, failed writes/retry and settled filtering. No reproducible upstream defect was found; no GitHub issue was filed. Brand docking and the review adapter are application code. The review adapter is bundled separately and uses only memory, with release packaging excluding it.
+
+
+## 0.3.1 invitation and color preview — 2026-10-30
+
+Retained Pane Button/TextField, Transition, Stagger and TileSequence. Used Stagger's CSS duration variable for the slower cadence, and consumer CSS background transitions with per-tile delays for accent waves. Added magenta and green to the consumer shortcut tone model so all six setup accents survive decoding and stay editable. No reproducible Pane defect was encountered; no upstream issue was filed.

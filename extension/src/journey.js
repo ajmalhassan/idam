@@ -7,7 +7,11 @@ export const createJourney = (revisit = false) => ({
 export function journeyReducer(state, action) {
   switch (action.type) {
     case 'INTRO_DONE':
-      return state.phase === 'intro' ? { ...state, phase: 'preparing' } : state;
+      return state.phase === 'intro' ? { ...state, phase: 'begin' } : state;
+    case 'BEGIN':
+      return state.phase === 'begin' ? { ...state, phase: 'docking' } : state;
+    case 'DOCKED':
+      return state.phase === 'docking' ? { ...state, phase: 'preparing' } : state;
     case 'PREPARED':
       return state.phase === 'preparing' ? { ...state, phase: 'entering' } : state;
     case 'ENTERED':
