@@ -2,6 +2,8 @@ const paths = {
   plus: 'M12 5v14M5 12h14',
   close: 'm6 6 12 12M18 6 6 18',
   arrow: 'M5 12h14m-6-6 6 6-6 6',
+  // Same 28px geometry as metro-icons/build.py's Forward icon.
+  forward: 'M7 14h14m-6-6 6 6-6 6',
   search: 'm21 21-5-5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',
   settings: 'M4 7h16M4 17h16M8 4v6M16 14v6',
   edit: 'm15 5 4 4M4 20l4-1L20 7a2.8 2.8 0 0 0-4-4L4 15v5Z',

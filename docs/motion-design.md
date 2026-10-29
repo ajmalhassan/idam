@@ -14,6 +14,10 @@ User-requested flow: animate Idam → Begin → a big, centered name prompt → 
 | Save → home | Save must succeed before the 340ms exit. Home tile wave uses 620ms turns with a maximum 240ms total stagger; surrounding content settles by 920ms. New places keep the chosen accent. |
 | Returning tabs | No reveal or Begin. Shorter tile entrance (300ms plus stagger); search remains usable. |
 
+## Approved welcome proportions
+
+The reveal wordmark is 66px on desktop and 44px on narrow screens, with a proportionally scaled four-tile mark. The caption sits 16px below the lockup. Begin uses Pane’s default button padding and 44px minimum height, with the browser theme’s square-ended forward SVG geometry at a heavier 2.4-unit stroke for this compact control.
+
 ## Behavior and constraints
 
 - Pane Transition, Stagger and TileSequence own setup/home motion. The custom brand reveal uses Web Animations, with cleanup and cancellation settlement.

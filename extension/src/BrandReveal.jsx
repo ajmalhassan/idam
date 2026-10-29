@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Button } from '@pane-ui/react';
 import { Brand } from './Brand.jsx';
+import { Icon } from './Icon.jsx';
 
 export function BrandReveal({ phase, targetRef, onRevealed, onBegin, onComplete }) {
   const lockup = useRef(null);
@@ -103,7 +104,14 @@ export function BrandReveal({ phase, targetRef, onRevealed, onBegin, onComplete 
             disabled={phase !== 'begin'}
             onClick={onBegin}
           >
-            Begin <span aria-hidden="true">↗</span>
+            Begin
+            <Icon
+              name="forward"
+              viewBox="0 0 28 28"
+              strokeWidth="2.4"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+            />
           </Button>
         </div>
       </div>

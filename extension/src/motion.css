@@ -15,18 +15,18 @@
   transform-origin: top left;
 }
 .reveal-lockup .wordmark {
-  gap: 40px;
-  font-size: 44px;
-  letter-spacing: 8px;
+  gap: 60px;
+  font-size: 66px;
+  letter-spacing: 12px;
   color: #f5f5f7;
 }
 .reveal-lockup .mark {
-  grid-template-columns: repeat(2, 20px);
-  gap: 12px;
+  grid-template-columns: repeat(2, 30px);
+  gap: 18px;
 }
 .reveal-lockup .mark i {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   transform-origin: left center;
 }
 .brand-name {
@@ -140,7 +140,7 @@
 .reveal-center {
   display: grid;
   justify-items: center;
-  gap: 40px;
+  gap: 16px;
   padding: 32px;
 }
 .reveal-invitation {
@@ -159,12 +159,6 @@
 .brand-reveal[data-reveal-phase='begin'] .reveal-invitation {
   opacity: 1;
   transform: none;
-}
-.begin-button.wp-button {
-  min-width: 150px;
-  min-height: 52px;
-  justify-content: center;
-  gap: 36px;
 }
 .onboarding > .wp-transition {
   min-height: calc(100svh - 140px);
@@ -312,17 +306,17 @@
     padding: 16px;
   }
   .reveal-lockup .wordmark {
-    gap: 30px;
-    font-size: 33px;
-    letter-spacing: 6px;
+    gap: 40px;
+    font-size: 44px;
+    letter-spacing: 8px;
   }
   .reveal-lockup .mark {
-    grid-template-columns: repeat(2, 15px);
-    gap: 9px;
+    grid-template-columns: repeat(2, 20px);
+    gap: 12px;
   }
   .reveal-lockup .mark i {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -92,3 +92,11 @@ A fresh temporary checkout containing only Git candidate files passed an offline
 - Browser checks: Begin remained waiting after the reveal; duplicate Begin did not advance twice; name field focused after entry; Back preserved the name and accent. A sampled blue→magenta transition showed distinct intermediate colors across tiles in order, then all selected tiles settled on magenta. Rapid teal→green→magenta clicks ended on magenta. The saved home tiles matched the preview.
 - At 390px with light OS preference and reduced motion, Begin remains explicit, name and places have no horizontal overflow, backgrounds remain dark, and accent changes have no running animations. At desktop width, a simulated storage write failure kept places actionable; retry saved the name and green tile colors and reached home.
 - Preview uses memory only. Production data test ran in a separate isolated browser context; the installed Vivaldi profile was not changed. Review and ZIP remain separate.
+
+
+## 0.3.2 approved welcome — 2026-10-30
+
+- Finalized approved reveal proportions: 66px desktop / 44px narrow wordmark, 16px caption gap, standard Pane button padding and 44px minimum height. Begin uses the browser theme's Forward SVG path, with square ends and a heavier stroke for compact display.
+- Formatting and all 23 tests pass. Production build and ZIP integrity pass; manifest version is 0.3.2, storage remains the only permission, and review files are excluded.
+- Exercised the production newtab.html bundle in an isolated Chromium context: the screen waited at Begin, had the approved SVG and 66px wordmark, and contained no review toolbar. Entered a name, selected violet, completed setup, and verified all four new home tiles used violet. Reload retained the name and went directly home without the reveal.
+- Rebuilt extension/dist for the existing unpacked installation and generated idam-new-tab-0.3.2.zip. The installed Vivaldi profile was not reloaded or reset. Screenshot of approved welcome: screenshots/idam-begin-theme-arrow.png.
