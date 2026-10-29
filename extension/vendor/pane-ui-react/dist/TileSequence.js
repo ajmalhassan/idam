@@ -1,0 +1,240 @@
+"use client";
+import { jsx as _jsx } from "react/jsx-runtime";
+import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState, } from "react";
+const useBrowserLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+const visible = { opacity: 1, transform: "none" };
+/** Coordinated presence; focus and navigation remain controlled by the owner. */
+export const TileSequence = forwardRef(function TileSequence({ items, show, selectedId, mode = "layered", duration = mode === "layered" ? 220 : 260, interval = mode === "layered" ? 33 : 40, direction = "forward", onEntered, onExited, className, ...props }, forwardedRef) {
+    const root = useRef(null);
+    const nodes = useRef(new Map());
+    const snapshots = useRef(new Map());
+    const [state, setState] = useState(() => ({ target: show, phase: show ? "entered" : "exited" }));
+    if (state.target !== show)
+        setState({ target: show, phase: show ? "entering" : "exiting" });
+    const { phase } = state;
+    const completion = useRef(null);
+    const callbacks = useRef({ onEntered, onExited });
+    // Content-only renders do not restart a run. Structural changes do, using
+    // sampled frames for surviving wrappers and fresh frames for new ones.
+    const identities = JSON.stringify(items.map((item) => item.id));
+    useImperativeHandle(forwardedRef, () => root.current, []);
+    useBrowserLayoutEffect(() => {
+        callbacks.current = { onEntered, onExited };
+    });
+    useBrowserLayoutEffect(() => {
+        const pending = completion.current;
+        completion.current = null;
+        if (pending?.target !== show || pending.phase !== phase)
+            return;
+        (phase === "entered"
+            ? callbacks.current.onEntered
+            : callbacks.current.onExited)?.();
+    }, [phase, show]);
+    useBrowserLayoutEffect(() => {
+        if (phase !== "entering" && phase !== "exiting")
+            return;
+        const entering = phase === "entering";
+        // Only a fresh entrance needs raster preparation. An interrupted wave
+        // already has painted surfaces and must reverse without another pause.
+        const prepare = entering && mode === "layered" && snapshots.current.size === 0;
+        let preparationFrame = 0;
+        const ids = JSON.parse(identities);
+        const tileOrder = entering
+            ? ids
+            : mode === "layered"
+                ? [...ids].reverse()
+                : [
+                    ...ids.filter((id) => id !== selectedId),
+                    ...ids.filter((id) => id === selectedId),
+                ];
+        // Group-only mode owns the root. Layered mode projects each tile through
+        // the same camera without moving the upper rows ahead of their wave.
+        const tracks = [
+            ...(mode === "group" && ids.length
+                ? [{ key: "group", element: root.current, index: 0, group: true }]
+                : []),
+            ...(mode !== "group"
+                ? tileOrder.map((id, index) => ({
+                    key: `tile:${id}`,
+                    element: nodes.current.get(id),
+                    index,
+                    group: false,
+                }))
+                : []),
+        ];
+        // Layout coordinates are unaffected by in-flight transforms. The positioned
+        // root is the offset parent, so every leaf can address one camera.
+        const width = Math.max(1, root.current?.clientWidth ?? 0);
+        const height = root.current?.clientHeight ?? 0;
+        const perspective = width * 2.45;
+        const travel = width * 0.108;
+        const animations = [];
+        let current = true;
+        let completed = false;
+        const preference = typeof window.matchMedia === "function"
+            ? window.matchMedia("(prefers-reduced-motion: reduce)")
+            : null;
+        const settle = () => {
+            if (!current || completed)
+                return;
+            completed = true;
+            snapshots.current.clear();
+            // Keep fill ownership until the terminal DOM commit. Canceling here
+            // exposes the resting tiles while React is still scheduling that commit.
+            // The layout-effect cleanup releases the animations after it is safe.
+            const finalState = {
+                target: show,
+                phase: entering ? "entered" : "exited",
+            };
+            completion.current = finalState;
+            setState(finalState);
+        };
+        const onPreferenceChange = () => {
+            if (preference?.matches)
+                settle();
+        };
+        preference?.addEventListener?.("change", onPreferenceChange);
+        const milliseconds = Number.isFinite(duration)
+            ? Math.max(0, duration)
+            : mode === "layered"
+                ? 220
+                : 260;
+        const spacing = Math.min(Number.isFinite(interval)
+            ? Math.max(0, interval)
+            : mode === "layered"
+                ? 33
+                : 40, 240 / Math.max(1, tileOrder.length - 1));
+        if (!tracks.length || preference?.matches || milliseconds === 0)
+            settle();
+        else {
+            const promises = [];
+            // Starting an animation invalidates style/layout. Read the whole wave
+            // first so each subsequent tile does not force another layout flush.
+            const measuredTracks = tracks.map((track) => ({
+                ...track,
+                left: mode === "layered" ? track.element?.offsetLeft ?? 0 : 0,
+                top: mode === "layered" ? track.element?.offsetTop ?? 0 : 0,
+            }));
+            for (const { key: id, element, index, group, left, top, } of measuredTracks) {
+                if (!element || typeof element.animate !== "function")
+                    continue;
+                const sampled = snapshots.current.get(id);
+                const layered = mode === "layered";
+                const sign = (direction === "forward" ? 1 : -1) *
+                    (layered
+                        ? entering
+                            ? -1
+                            : 1
+                        : mode !== "individual" || entering
+                            ? 1
+                            : -1);
+                const hidden = {
+                    opacity: 0,
+                    transform: layered
+                        ? `perspective(${perspective}px) translateX(${-sign * travel}px) rotateY(${-sign * 88}deg)`
+                        : `perspective(1200px) rotateY(${sign * 78}deg)`,
+                };
+                // Keep matching transform lists at both endpoints. Interpolating from
+                // "none" can take a different matrix decomposition path across engines.
+                const resting = layered
+                    ? {
+                        opacity: 1,
+                        transform: `perspective(${perspective}px) translateX(0px) rotateY(0deg)`,
+                    }
+                    : visible;
+                const from = sampled ?? (entering ? hidden : resting);
+                const transformOrigin = from.transformOrigin ??
+                    (layered
+                        ? `${(sign > 0 ? 0 : width) - left}px ${height / 2 - top}px`
+                        : direction === "forward"
+                            ? "left center"
+                            : "right center");
+                try {
+                    const animation = element.animate([
+                        // Zero alpha lets browsers skip rasterizing delayed tiles until
+                        // they move. Subpixel alpha prepares them without a visible flash.
+                        {
+                            ...from,
+                            ...(prepare ? { opacity: 0.001 } : {}),
+                            transformOrigin,
+                        },
+                        { ...(entering ? resting : hidden), transformOrigin },
+                    ], {
+                        duration: milliseconds,
+                        // Interrupted frames move immediately; replaying their old stagger
+                        // would freeze partially turned tiles at the reversal point.
+                        delay: sampled || group ? 0 : Math.min(240, index * spacing),
+                        easing: layered
+                            ? entering
+                                ? "cubic-bezier(0, 0, 0.58, 1)"
+                                : "cubic-bezier(0.42, 0, 1, 1)"
+                            : "cubic-bezier(0.15, 0.7, 0.25, 1)",
+                        fill: "both",
+                    });
+                    animations.push({ id, element, animation });
+                    promises.push(animation.finished.catch(() => undefined));
+                    if (prepare)
+                        animation.pause();
+                }
+                catch {
+                    /* Unsupported effects settle along with the remaining group. */
+                }
+            }
+            snapshots.current.clear();
+            if (promises.length) {
+                if (prepare) {
+                    // Give the paused, promoted surfaces a paint opportunity, then let
+                    // the browser drive the wave. There is no per-frame JS animation.
+                    preparationFrame = window.requestAnimationFrame(() => {
+                        preparationFrame = window.requestAnimationFrame(() => {
+                            if (!current || completed)
+                                return;
+                            animations.forEach(({ animation }) => animation.play());
+                        });
+                    });
+                }
+                void Promise.all(promises).then(settle);
+            }
+            else
+                settle();
+        }
+        return () => {
+            current = false;
+            window.cancelAnimationFrame(preparationFrame);
+            preference?.removeEventListener?.("change", onPreferenceChange);
+            const next = new Map();
+            animations.forEach(({ id, element, animation }) => {
+                if (!completed) {
+                    const displayed = window.getComputedStyle(element);
+                    next.set(id, {
+                        opacity: displayed.opacity,
+                        transform: displayed.transform,
+                        transformOrigin: displayed.transformOrigin,
+                    });
+                }
+                animation.cancel();
+            });
+            snapshots.current = next;
+        };
+    }, [
+        phase,
+        show,
+        identities,
+        selectedId,
+        duration,
+        interval,
+        direction,
+        mode,
+    ]);
+    const unavailable = !show || phase === "exited";
+    return (_jsx("div", { ...props, ref: root, className: ["wp-tile-grid wp-tile-sequence", className]
+            .filter(Boolean)
+            .join(" "), "data-state": phase, "data-mode": mode, "data-direction": direction, hidden: phase === "exited" || props.hidden, inert: unavailable || props.inert, "aria-hidden": unavailable ? true : props["aria-hidden"], children: phase !== "exited"
+            ? items.map((item) => (_jsx("div", { ref: (element) => {
+                    if (element)
+                        nodes.current.set(item.id, element);
+                    else
+                        nodes.current.delete(item.id);
+                }, className: "wp-tile-sequence-item", "data-size": item.size ?? "small", children: item.content }, item.id)))
+            : null }));
+});

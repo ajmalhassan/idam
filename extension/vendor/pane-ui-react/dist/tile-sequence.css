@@ -1,0 +1,26 @@
+.wp-tile-sequence {
+  position: relative;
+}
+/* Grid spans and row ratios belong to these wrappers, not the inner tiles.
+   This leaves the tile's transform available for independent press tilt. */
+.wp-tile-sequence[hidden] {
+  display: none;
+}
+.wp-tile-sequence-item {
+  min-width: 0;
+  backface-visibility: hidden;
+}
+/* Release the promotion hint at rest; only the fresh entrance needs it. */
+.wp-tile-sequence[data-mode="layered"][data-state="entering"]
+  > .wp-tile-sequence-item {
+  will-change: transform, opacity;
+}
+.wp-tile-sequence-item > .wp-tile {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  aspect-ratio: auto;
+  --wp-tile-content-padding: clamp(0.5rem, 3cqw, 1.15rem);
+  padding: var(--wp-tile-content-padding);
+  gap: 0.5rem;
+}

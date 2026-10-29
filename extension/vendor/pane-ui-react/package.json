@@ -1,0 +1,60 @@
+{
+  "name": "@pane-ui/react",
+  "version": "0.1.0-alpha.1",
+  "description": "Expressive React components with living tiles, bold typography, and purposeful motion.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./motion.css": "./dist/motion.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/build.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0 <20",
+    "react-dom": ">=19.0.0 <20"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.27.20"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajmalhassan/pane-ui.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/ajmalhassan/pane-ui#readme",
+  "bugs": {
+    "url": "https://github.com/ajmalhassan/pane-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "design-system",
+    "tiles",
+    "animation",
+    "pane-ui"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "alpha",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

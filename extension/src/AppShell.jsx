@@ -1,0 +1,246 @@
+import { useEffect, useRef, useState } from 'react';
+import { Button, TextField, MessageBanner } from '@pane-ui/react';
+import { Brand } from './Brand.jsx';
+import { MetroTheme } from './MetroTheme.jsx';
+import { useNow } from './useNow.js';
+import { useWorkspace } from './useWorkspace.js';
+import { Icon } from './Icon.jsx';
+import { Onboarding } from './Onboarding.jsx';
+import { Priority } from './Priority.jsx';
+import { Tasks } from './Tasks.jsx';
+import { Notes } from './Notes.jsx';
+import { Shortcuts } from './Shortcuts.jsx';
+import { ShortcutDialog } from './ShortcutDialog.jsx';
+import { Settings } from './Settings.jsx';
+import { localDay } from './priority.js';
+import { PREFIX } from './model.js';
+import { store } from './storage.js';
+
+export function App() {
+  const ws = useWorkspace(),
+    now = useNow(),
+    day = localDay(now);
+  const [editing, setEditing] = useState(false),
+    [shortcut, setShortcut] = useState(null),
+    [settingsOpen, setSettingsOpen] = useState(false),
+    [noteOpen, setNoteOpen] = useState(false),
+    [query, setQuery] = useState('');
+  const [setupOpen, setSetupOpen] = useState(false);
+  const addRef = useRef(null),
+    settingsRef = useRef(null),
+    shortcutFocus = useRef(null),
+    searchRef = useRef(null);
+  const openShortcut = (record, event) => {
+    shortcutFocus.current = event?.currentTarget || addRef.current;
+    setShortcut(
+      record || {
+        id: crypto.randomUUID(),
+        title: '',
+        url: '',
+        tone: 'blue',
+        size: 'small',
+        order: Math.max(-1, ...ws.shortcuts.map((s) => s.order)) + 1,
+        icon: '',
+      },
+    );
+  };
+  const move = async (s, delta) => {
+    const index = ws.shortcuts.findIndex((x) => x.id === s.id),
+      next = index + delta;
+    if (next < 0 || next >= ws.shortcuts.length) return;
+    const list = [...ws.shortcuts];
+    [list[index], list[next]] = [list[next], list[index]];
+    await ws.run(async () => {
+      const raw = await store.get();
+      const updates = list.flatMap((item, order) => {
+        const key = PREFIX + 'shortcut.' + item.id;
+        return raw[key] ? [[key, { ...raw[key], order }]] : [];
+      });
+      await store.set(Object.fromEntries(updates));
+    }, 'shortcut-order');
+  };
+  const search = (e) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    const urls = {
+      duckduckgo: 'https://duckduckgo.com/?q=',
+      google: 'https://www.google.com/search?q=',
+      bing: 'https://www.bing.com/search?q=',
+    };
+    location.assign(urls[ws.settings.search] + encodeURIComponent(query.trim()));
+  };
+  useEffect(() => {
+    const key = (e) => {
+      if (
+        !ws.ready ||
+        !ws.onboarded ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.altKey ||
+        e.defaultPrevented ||
+        document.querySelector('dialog[open]')
+      )
+        return;
+      const el = e.target;
+      if (el.closest('input,textarea,select,button,a,[contenteditable=true]')) return;
+      if (e.key === '/') {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+      if (e.key.toLowerCase() === 'n' && ws.settings.showNotes) {
+        e.preventDefault();
+        setNoteOpen(true);
+      }
+    };
+    document.addEventListener('keydown', key);
+    return () => document.removeEventListener('keydown', key);
+  }, [ws.ready, ws.onboarded, ws.settings.showNotes]);
+  if (ws.ready && (!ws.onboarded || setupOpen))
+    return (
+      <Onboarding
+        run={ws.run}
+        error={ws.error}
+        retry={ws.retry}
+        revisit={ws.onboarded}
+        settings={ws.settings}
+        shortcuts={ws.shortcuts}
+        onComplete={() => setSetupOpen(false)}
+        onCancel={() => setSetupOpen(false)}
+      />
+    );
+  const greeting =
+    now.getHours() < 12 ? 'good morning' : now.getHours() < 18 ? 'good afternoon' : 'good evening';
+  return (
+    <MetroTheme accent={ws.settings.accent}>
+      <div className="workspace">
+        <div className="topline">
+          <Brand />
+          <Button
+            ref={settingsRef}
+            className="quiet-button"
+            variant="subtle"
+            onClick={() => setSettingsOpen(true)}
+            disabled={!ws.ready}
+          >
+            Personalize
+          </Button>
+        </div>
+        {ws.error && (
+          <MessageBanner
+            className="save-error"
+            tone="error"
+            announcement="assertive"
+            actions={<Button onClick={ws.retry}>Try again</Button>}
+          >
+            {ws.error}
+          </MessageBanner>
+        )}
+        {!ws.ready ? (
+          <p className="loading">Opening your workspace…</p>
+        ) : (
+          <>
+            <header className="hero">
+              <div>
+                <p className="eyebrow">
+                  {new Intl.DateTimeFormat(undefined, {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                    .format(now)
+                    .toUpperCase()}
+                </p>
+                <h1>
+                  {greeting}
+                  {ws.settings.name && (
+                    <>
+                      ,<br />
+                      {ws.settings.name}
+                    </>
+                  )}
+                  <span>.</span>
+                </h1>
+              </div>
+              <div className="clock">
+                <div className="time">
+                  {new Intl.DateTimeFormat(undefined, {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  }).format(now)}
+                </div>
+                <div className="date">make today yours</div>
+              </div>
+            </header>
+            <form className="search" onSubmit={search} role="search">
+              <Icon name="search" />
+              <TextField
+                ref={searchRef}
+                aria-label="Find a place or search the web"
+                placeholder="Find a place, or search the web"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <Button type="submit" variant="subtle" disabled={!query.trim()}>
+                Search web <Icon name="arrow" />
+              </Button>
+            </form>
+            <main className="dashboard">
+              <div className="places-column">
+                <Priority records={ws.priorities} day={day} run={ws.run} />
+                <Shortcuts
+                  ws={ws}
+                  query={query}
+                  editing={editing}
+                  setEditing={setEditing}
+                  openShortcut={openShortcut}
+                  addRef={addRef}
+                  move={move}
+                />
+              </div>
+              <aside
+                className="daily-panel"
+                hidden={!ws.settings.showTasks && !ws.settings.showNotes}
+              >
+                <Tasks ws={ws} hidden={!ws.settings.showTasks} />
+                <Notes
+                  value={ws.notes}
+                  run={ws.run}
+                  hidden={!ws.settings.showNotes}
+                  open={noteOpen}
+                  setOpen={setNoteOpen}
+                />
+              </aside>
+            </main>
+            <footer className="page-footer">
+              <span>Yours, on this device.</span>
+              <span>
+                Built with{' '}
+                <a href="https://pane.ajmalhassan.com" target="_blank" rel="noreferrer">
+                  Pane UI
+                </a>
+              </span>
+            </footer>
+          </>
+        )}
+      </div>
+      <ShortcutDialog
+        record={shortcut}
+        onClose={() => setShortcut(null)}
+        finalFocusRef={shortcutFocus}
+        run={ws.run}
+      />
+      <Settings
+        onSetup={() => {
+          setSettingsOpen(false);
+          setSetupOpen(true);
+        }}
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        settings={ws.settings}
+        finalFocusRef={settingsRef}
+        run={ws.run}
+      />
+    </MetroTheme>
+  );
+}

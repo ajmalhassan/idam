@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Idam — New Tab",
+  "description": "Your space for shortcuts, tasks and notes. A Metro-inspired new tab, built with Pane UI.",
+  "permissions": ["storage"],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'"
+  }
+}

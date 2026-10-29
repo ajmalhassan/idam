@@ -1,0 +1,23 @@
+# Local dependencies and generated packages
+node_modules/
+/extension/dist/
+/extension/build-meta.json
+/extension/*.zip
+/metro-icons/flat/
+/metro-icons/classic/
+/metro-icons/preview.html
+/metro-icons/*.zip
+
+# Recoverable local experiments and pre-Git releases
+/.local/
+/releases/
+
+# Local configuration and machine files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.log
+__pycache__/
+*.py[cod]

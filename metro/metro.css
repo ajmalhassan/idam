@@ -1,0 +1,223 @@
+/*
+ * Idam for Vivaldi — vertical tabs first
+ * Validated against Vivaldi 8.2.4133.94 on macOS.
+ * Select this directory in Settings > Appearance > Custom UI Modifications.
+ * Native settings own tab position, sidebar width, density and stacking.
+ */
+
+/* Edit these tokens to personalize the theme. */
+#browser {
+  --metro-accent: #0078d7;
+  --metro-background: #080809;
+  --metro-sidebar: #101012;
+  --metro-surface: #171719;
+  --metro-hover: #242428;
+  --metro-text: #f5f5f7;
+  --metro-muted: #b5b5bd;
+  --metro-border: #303034;
+  --metro-active: color-mix(in srgb, var(--metro-accent) 23%, var(--metro-sidebar));
+  --metro-font: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --metro-pin-radius: 6px;
+  --metro-pin-surface: #242428;
+
+  /* Override native tokens, including theme values supplied inline. */
+  --colorBg: var(--metro-surface) !important;
+  --colorBgDark: var(--metro-sidebar) !important;
+  --colorBgDarker: var(--metro-background) !important;
+  --colorBgLight: var(--metro-hover) !important;
+  --colorBgLighter: #343438 !important;
+  --colorBgLightIntense: #343438 !important;
+  --colorBgIntense: var(--metro-background) !important;
+  --colorBgAlpha: #171719eb !important;
+  --colorBgAlphaHeavy: #171719cc !important;
+  --colorBgAlphaHeavier: #17171988 !important;
+  --colorBgAlphaBlur: var(--metro-surface) !important;
+  --colorFg: var(--metro-text) !important;
+  --colorFgIntense: #ffffff !important;
+  --colorFgFaded: var(--metro-muted) !important;
+  --colorFgFadedMore: #92929e !important;
+  --colorFgAlpha: #f5f5f726 !important;
+  --colorFgAlphaHeavy: #f5f5f73d !important;
+  --colorBorder: var(--metro-border) !important;
+  --colorAccentBg: var(--metro-sidebar) !important;
+  --colorAccentBgDark: var(--metro-background) !important;
+  --colorAccentBgDarker: var(--metro-background) !important;
+  --colorAccentBgAlpha: var(--metro-hover) !important;
+  --colorAccentBgAlphaHeavy: var(--metro-sidebar) !important;
+  --colorAccentFg: var(--metro-text) !important;
+  --colorAccentFgFaded: var(--metro-muted) !important;
+  --colorHighlightBg: var(--metro-accent) !important;
+  --colorHighlightFg: #ffffff !important;
+  --colorImageBg: var(--metro-sidebar) !important;
+  --colorImageFg: var(--metro-text) !important;
+  --colorImageBgAlpha: var(--metro-hover) !important;
+  --colorImageBgAlphaHeavy: var(--metro-sidebar) !important;
+  --radius: 0px !important;
+  --radiusHalf: 0px !important;
+  --radiusRounded: 0px !important;
+  --backgroundBlur: none !important;
+  color-scheme: dark;
+  font-family: var(--metro-font);
+}
+
+/* Solid browser surfaces. Webpage documents are separate and unaffected. */
+#browser :is(#header, .mainbar, .toolbar-mainbar, #footer, .toolbar-statusbar,
+  #panels-container, #switch, .bookmark-bar) {
+  background-color: var(--metro-sidebar) !important;
+  background-image: none !important;
+  color: var(--metro-text) !important;
+  backdrop-filter: none !important;
+}
+
+#browser .mainbar {
+  border-bottom: 1px solid var(--metro-border) !important;
+}
+
+#browser :is(.UrlBar-AddressField, .UrlBar-SearchField) {
+  background: var(--metro-background) !important;
+  color: var(--metro-text) !important;
+  border: 1px solid var(--metro-border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#browser :is(.UrlBar-AddressField, .UrlBar-SearchField):focus-within {
+  border-color: var(--metro-accent) !important;
+  box-shadow: inset 0 -1px var(--metro-accent) !important;
+}
+
+#browser .button-toolbar > button {
+  border-radius: 0 !important;
+}
+
+/* Do not touch .tab-position transforms, widths, heights or drag targets. */
+#browser:is(.tabs-left, .tabs-right) .tabbar-wrapper {
+  --currentRadius: 0px;
+  background: var(--metro-sidebar) !important;
+  color: var(--metro-text) !important;
+  backdrop-filter: none !important;
+}
+
+#browser:is(.tabs-left, .tabs-right) #tabs-tabbar-container {
+  background: var(--metro-sidebar) !important;
+  box-shadow: none !important;
+}
+
+#browser:is(.tabs-left, .tabs-right) .tabbar-workspace-button > button {
+  color: var(--metro-muted);
+  justify-content: flex-start;
+}
+
+#browser:is(.tabs-left, .tabs-right) :is(#tabs-container, #tabs-subcontainer) .tab {
+  border-radius: 0 !important;
+  font-family: var(--metro-font);
+  font-size: 12px;
+}
+
+/* Preserve native marked-tab and drop-target feedback. */
+#browser:is(.tabs-left, .tabs-right) :is(#tabs-container, #tabs-subcontainer)
+  .tab:not(.active, .marked, .tab-acceptsdrop) {
+  background-color: transparent !important;
+  color: var(--metro-muted) !important;
+}
+
+#browser:is(.tabs-left, .tabs-right) :is(#tabs-container, #tabs-subcontainer)
+  .tab-wrapper:hover .tab:not(.active, .marked, .tab-acceptsdrop) {
+  background-color: var(--metro-hover) !important;
+  color: var(--metro-text) !important;
+}
+
+#browser:is(.tabs-left, .tabs-right) :is(#tabs-container, #tabs-subcontainer)
+  .tab.active:not(.marked, .tab-acceptsdrop) {
+  background-color: var(--metro-active) !important;
+  color: var(--metro-text) !important;
+  box-shadow: inset 3px 0 0 var(--metro-accent) !important;
+}
+
+#browser.tabs-right :is(#tabs-container, #tabs-subcontainer)
+  .tab.active:not(.marked, .tab-acceptsdrop) {
+  box-shadow: inset -3px 0 0 var(--metro-accent) !important;
+}
+
+#browser:is(.tabs-left, .tabs-right) :is(#tabs-container, #tabs-subcontainer)
+  .tab.pinned:not(.active, .marked, .tab-acceptsdrop) {
+  background-color: var(--metro-hover) !important;
+  color: var(--metro-text) !important;
+}
+
+#browser:is(.tabs-left, .tabs-right) .tab .title {
+  font-weight: 400;
+}
+
+/* Native icon grid: enable vivaldi://flags/#vivaldi-horizontal-pinned-tabs.
+ * Only paint the native tiles; leave their dimensions and drag positions alone.
+ * The flag-off layout retains readable full-width pinned rows.
+ */
+#browser:is(.tabs-left, .tabs-right) #tabs-tabbar-container.horizontal-pinned-tabs
+  #tabs-container .tab-wrapper.in-pinned-group .tab.pinned {
+  border-radius: var(--metro-pin-radius) !important;
+  border: 1px solid var(--metro-border);
+}
+
+#browser:is(.tabs-left, .tabs-right) #tabs-tabbar-container.horizontal-pinned-tabs
+  #tabs-container .tab-wrapper.in-pinned-group .tab.pinned:not(.active, .marked, .tab-acceptsdrop) {
+  background-color: var(--metro-pin-surface) !important;
+  box-shadow: inset 0 1px 0 #ffffff08;
+}
+
+#browser:is(.tabs-left, .tabs-right) #tabs-tabbar-container.horizontal-pinned-tabs
+  #tabs-container .tab-wrapper.in-pinned-group:hover .tab.pinned:not(.active, .marked, .tab-acceptsdrop) {
+  background-color: #323238 !important;
+  border-color: #52525c;
+}
+
+#browser:is(.tabs-left, .tabs-right) #tabs-tabbar-container.horizontal-pinned-tabs
+  #tabs-container .tab-wrapper.in-pinned-group .tab.pinned.active:not(.marked, .tab-acceptsdrop) {
+  border-color: var(--metro-accent);
+  box-shadow: inset 0 -2px 0 var(--metro-accent) !important;
+}
+
+#browser:is(.tabs-left, .tabs-right) .tab.active .title {
+  font-weight: 500;
+}
+
+#browser:is(.tabs-left, .tabs-right) :is(.tab, .tab-wrapper, .tab .close,
+  .tabbar-workspace-button > button):focus-visible {
+  outline: 2px solid var(--metro-text) !important;
+  outline-offset: -2px;
+}
+
+/* Match the native Start Page; preserve bookmarks, widgets and thumbnails. */
+#browser .startpage {
+  background: var(--metro-background) !important;
+  color: var(--metro-text) !important;
+  font-family: var(--metro-font);
+}
+
+#browser .startpage .startpage-navigation {
+  background: var(--metro-sidebar) !important;
+  color: var(--metro-text) !important;
+  backdrop-filter: none !important;
+  border-radius: 0 !important;
+}
+
+#browser .startpage :is(.SpeedDial, .thumbnail-image, .thumbnail-favicon .favicon) {
+  border-radius: 0 !important;
+}
+
+#browser .startpage .thumbnail-title {
+  color: var(--metro-text) !important;
+}
+
+#browser .startpage .button-startpage.active {
+  color: var(--metro-text) !important;
+  border-radius: 0 !important;
+  box-shadow: inset 0 -2px var(--metro-accent) !important;
+}
+
+@media (forced-colors: active) {
+  #browser:is(.tabs-left, .tabs-right) .tab.active {
+    outline: 2px solid Highlight !important;
+    outline-offset: -2px;
+  }
+}
