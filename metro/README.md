@@ -1,6 +1,6 @@
 # Idam for Vivaldi
 
-A Windows Phone inspired custom CSS theme, designed around **vertical tabs**: near-black surfaces, square corners, a blue active-tab edge, and optional icon-only pinned tiles.
+A Windows Phone inspired custom CSS theme, designed around **vertical tabs**: near-black surfaces, square corners, a solid blue active tab, and optional icon-only pinned tiles.
 
 ## Install
 
@@ -23,7 +23,7 @@ If you already use a custom CSS folder, copy `metro/metro.css` into it instead o
 2. Set **Horizontal pinned tabs in vertical tab bars** to **Enabled**.
 3. Relaunch Vivaldi.
 
-This experimental feature is present in the tested Vivaldi 8.2 build. It supplies native favicon-only tiles above regular tabs. The CSS gives them dark surfaces, subtle borders, 6 px corners, and a blue active outline/underline. Vivaldi chooses the tile size and wrapping; this does not force the reference image's three columns or wide rectangular tiles. If the flag is unavailable, ordinary full-width pinned tabs remain usable.
+This experimental feature is present in the tested Vivaldi 8.2 build. It supplies native favicon-only tiles above regular tabs. The CSS gives them dark surfaces, subtle borders, 6 px corners, and a solid blue active fill. Vivaldi chooses the tile size and wrapping; this does not force the reference image's three columns or wide rectangular tiles. If the flag is unavailable, ordinary full-width pinned tabs remain usable.
 
 To undo the grid, set that flag back to **Default** and relaunch. Existing pins remain pinned.
 
@@ -31,7 +31,7 @@ To undo the grid, set that flag back to **Default** and relaunch. Existing pins 
 
 - Flat dark address bar, panel strip, tab sidebar and status bar.
 - Square tabs and toolbar buttons.
-- Blue active-tab marker: left edge for left tabs, right edge for right tabs.
+- Solid blue active tabs with white labels on either side.
 - Readable inactive labels, hover states, pinned-tab surfaces and keyboard focus.
 - A matching native Start Page with square Speed Dial thumbnails.
 - Native tab dragging, resizing, close/mute controls and stack behavior remain under Vivaldi's control.
@@ -42,11 +42,21 @@ Inactive tab-stack fills are flattened to the Metro palette. Native stack frames
 
 ## Customize
 
-Edit the `--metro-*` variables at the top of `metro/metro.css`. Change `--metro-accent` to choose another accent; the active-tab background follows automatically. Keep enough contrast with the dark sidebar.
+Edit the `--metro-*` variables at the top of `metro/metro.css`. Change `--metro-accent` for filled selections and `--metro-accent-text` for brighter field focus. The active tab uses the filled accent as one solid color, without an edge stripe or underline. Keep enough contrast with the dark sidebar.
 
 The font stack uses Segoe UI when installed, then Helvetica Neue and Arial. No fonts, scripts, or images are downloaded by the theme.
 
 The large “tabs” heading has been removed to reclaim vertical space. For fully square pinned tiles, set `--metro-pin-radius: 0px`.
+
+## Pane UI alignment
+
+The browser CSS mirrors the **effective blue theme in the Idam start page**, using the vendored Pane UI `0.1.0-alpha.1` tokens plus Idam's overrides. It uses `#0c0c0f` backgrounds, `#1c1c22` surfaces, `#f7f7f8` text, `#aaaab6` muted text, `#414148` borders, `#0078d7` filled accents and `#62b7ff` accent text/focus. The `--wp-*` values are a local snapshot, mapped to editable `--metro-*` aliases and then Vivaldi's native colors.
+
+Tabs use 13 px labels to match the start page's shortcut labels. Toolbar and address-field fonts use the same Segoe UI / Helvetica Neue / Arial stack, overriding Vivaldi's platform-specific control fonts. Fields remain square; keyboard focus stays visible; toolbar hover transitions last 120 ms and are disabled with reduced motion. Native pressed/expanded control colors are preserved. The 6 px pinned-tile radius is retained from the requested reference.
+
+This is visual alignment through standalone CSS, not a Pane React integration. Accent changes in the extension do **not** automatically update the browser: edit both accent tokens above to match. Pane's tile tilt/scale animation and large component spacing are not applied to browser drag targets. Vivaldi still owns tab dimensions, density and sidebar width.
+
+The icon-theme builder reads this CSS's `--wp-*` palette when rebuilding its ZIPs and specimen. [View the browser and Pane start page together](pane-alignment.png).
 
 ## Undo
 

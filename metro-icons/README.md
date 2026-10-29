@@ -1,5 +1,7 @@
 # Idam icon preview for Vivaldi
 
+**30 October update:** the builder now reads its colors from the Pane-aligned browser CSS in `../metro/metro.css`. Rebuild to refresh both ZIP palettes and the comparison. The screenshots below document the earlier palette; [the current browser screenshot](../metro/pane-alignment.png) shows the alignment with the Pane start page. Icon shapes are unchanged.
+
 Ten original SVG icons, packaged as two native Vivaldi themes. This is a small design trial, not a replacement for every browser icon.
 
 - **Flat**: open Back arrow, matching the rest of the set. Recommended.
