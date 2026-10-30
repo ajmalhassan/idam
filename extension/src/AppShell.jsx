@@ -18,8 +18,21 @@ import { PREFIX } from './model.js';
 import { store } from './storage.js';
 
 export function App() {
-  const ws = useWorkspace(),
-    now = useNow(),
+  const ws = useWorkspace();
+  if (ws.stale)
+    return (
+      <main className="restore-notice">
+        <h1>Your workspace was restored</h1>
+        <p>
+          Reload this tab to use the restored data. Older edits in this tab cannot overwrite it.
+        </p>
+        <Button onClick={() => window.location.reload()}>Reload Idam</Button>
+      </main>
+    );
+  return <Workspace key={ws.revision} ws={ws} />;
+}
+function Workspace({ ws }) {
+  const now = useNow(),
     day = localDay(now);
   const [editing, setEditing] = useState(false),
     [shortcut, setShortcut] = useState(null),

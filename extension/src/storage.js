@@ -1,4 +1,5 @@
 import { migrationUpdates } from './lifecycle.js';
+import { createGuardedStore } from './guarded-store.js';
 
 // A file preview uses localStorage; the installed extension uses storage.local.
 const native = Boolean(globalThis.chrome?.storage?.local);
@@ -9,7 +10,7 @@ const previewRead = () => {
   return raw;
 };
 const listeners = new Set();
-export const store = {
+const backend = {
   async get() {
     return native ? chrome.storage.local.get(null) : previewRead();
   },
@@ -47,6 +48,11 @@ export const store = {
     };
   },
 };
+export const store = createGuardedStore(backend, {
+  lock: globalThis.navigator?.locks
+    ? (fn) => navigator.locks.request('idam-workspace-write', fn)
+    : undefined,
+});
 export async function initialize() {
   const raw = await store.get();
   const updates = migrationUpdates(raw);

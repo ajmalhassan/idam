@@ -38,7 +38,7 @@ For a repeatable review, open **http://127.0.0.1:8765/review/index.html**. The p
 4. In **Settings → Tabs → New Tab Page**, choose the extension-controlled start page (the label can appear as **Controlled by Extension**).
 5. Open a new tab.
 
-Alternatively, extract `idam-new-tab-0.4.2.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
+Alternatively, extract `idam-new-tab-0.5.0.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
 
 To return to Momentum, disable Idam — New Tab and enable Momentum again.
 
@@ -72,7 +72,7 @@ To upgrade a loaded unpacked installation, keep the same extension folder, rebui
 - Complete tasks with their checkbox. Use the pencil to edit a task inline; Enter/checkmark saves and Escape/cross cancels. Empty edits are blocked, and failed saves retain the draft for retry. Editing preserves completion and creation time. Deleting a task provides Undo for the latest deletion in that tab.
 - Notes save after a short pause and on blur. Check the save status before closing the tab; failed saves retain the draft and offer retry in the notes editor and home banner. Abrupt browser/process termination can lose an edit that has not yet saved.
 - Settings changes, notes, and edits to the same record use the latest completed save across tabs. Separate task and shortcut records do not replace the whole workspace.
-- Your workspace records are stored locally in the browser profile. This version has no sync/export. Uninstalling the extension clears its local data.
+- Your workspace records are stored locally in the browser profile. This version has no cloud sync; use backup export/import to move or recover your workspace. Uninstalling the extension clears its local data.
 
 Permissions remain `storage` and `favicon`; no access to all websites is requested. Icons use this sequence, with a three-second deadline per source:
 
@@ -87,6 +87,22 @@ Provider coverage and freshness are not guaranteed: Google and Chromium can retu
 
 Research: [Chromium's favicon endpoint](https://developer.chrome.com/docs/extensions/how-to/ui/favicons), [HTML icon declarations](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel#icon), [Favicon.im's API and missing-icon option](https://favicon.im/), and [ArchiveBox's use of Google's favicon lookup](https://docs.archivebox.io/en/master/Configuration.html#save-favicon).
 
+
+## Backup and restore (0.5.0)
+
+Open **Personalize → backup & restore**:
+
+- **Export backup** downloads a versioned JSON file containing saved settings, places, tasks, notes and all daily priorities. Unsaved drafts, favicon images and recovery copies are not included. No account, network upload or extra permission is needed.
+- **Choose backup** validates the entire file before showing counts, date and the current workspace summary. Nothing changes until you acknowledge replacement and click **Replace workspace**. Import replaces rather than merges, and returns you to home.
+- Idam saves one local recovery copy before replacement. **Export recovery copy** downloads it; select that file to preview and restore the previous workspace. A later restore replaces the local recovery copy. Keep an exported copy elsewhere: uninstalling Idam or losing the browser profile removes local recovery too.
+- Files are readable, unencrypted JSON. Keep them private. Format version 1 and a 2 MB file limit are supported. Invalid fields, duplicate IDs, unsafe shortcut URLs and unsupported versions are rejected as a whole.
+- If your saved workspace changes after preview, restore stops and asks you to select the file again. Other open Idam tabs show a reload prompt and cannot write old edits over the new workspace. Unsaved edits are discarded during replacement; save work first.
+
+Restore coordinates writes through Web Locks in installed Chromium extensions and localhost previews. File-based/insecure previews without this API can export but cannot restore. Recovery is saved first, then the replacement uses one bulk storage write; Idam never clears storage before saving. Storage quota errors abort the operation, and the previous copy remains available if the replacement write fails. Old record keys are retained as null tombstones until reused; they are ignored by the UI and not exported. This is an application-level recovery mechanism, not a guarantee against disk failure or writes from older Idam versions that lack the guard.
+
+The review page uses only temporary memory: exports contain review data, imports affect that review session, and a reload discards that session. It cannot restore your installed workspace.
+
+Implementation references: [Chromium storage](https://developer.chrome.com/docs/extensions/reference/api/storage) and [Web Locks](https://developer.mozilla.org/en-US/docs/Web/API/Web_Locks_API).
 
 ## Development
 

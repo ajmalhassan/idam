@@ -936,3 +936,68 @@ h2 {
     scroll-behavior: auto !important;
   }
 }
+
+.settings-fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.backup-controls {
+  border-top: 1px solid var(--wp-border);
+  margin-top: 24px;
+  padding-top: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.backup-controls h3,
+.backup-controls h4 {
+  margin: 0 0 12px;
+  font-weight: 400;
+}
+.backup-controls p {
+  color: var(--wp-muted);
+}
+.backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.backup-file {
+  display: none;
+}
+.backup-preview {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--wp-border);
+  background: var(--wp-background);
+}
+.backup-preview h4:focus-visible {
+  outline: 2px solid var(--wp-accent-text);
+  outline-offset: 4px;
+}
+.backup-preview .backup-actions {
+  margin-top: 16px;
+}
+.backup-preview dt {
+  margin-top: 10px;
+  color: var(--wp-muted);
+}
+.backup-preview dd {
+  margin: 2px 0 0;
+}
+.backup-filename {
+  overflow-wrap: anywhere;
+}
+.backup-recovery {
+  margin-top: 18px;
+}
+.restore-notice {
+  max-width: 640px;
+  padding: 48px 24px;
+  margin: auto;
+  color: #f7f7f8;
+}
+.restore-notice p {
+  line-height: 1.6;
+}

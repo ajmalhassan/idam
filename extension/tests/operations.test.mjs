@@ -39,3 +39,21 @@ test('a late failure cannot replace a newer successful save', async () => {
   await pending;
   assert.equal(error, null);
 });
+
+test('discarded workspace operations cannot retry or start stale writes', async () => {
+  const ops = createOperations(() => {});
+  let writes = 0;
+  await ops.run(async () => {
+    throw Error('Failed old write');
+  }, 'notes');
+  assert.equal(typeof ops.cancel, 'function');
+  ops.cancel();
+  await ops.retry();
+  assert.equal(
+    await ops.run(async () => {
+      writes++;
+    }),
+    false,
+  );
+  assert.equal(writes, 0);
+});
