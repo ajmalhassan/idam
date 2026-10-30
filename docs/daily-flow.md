@@ -1,6 +1,6 @@
 # Idam: daily flow
 
-The new-tab extension combines a simple home screen, daily productivity interactions, and Metro styling through Pane UI. Implemented in 0.2.0; branded Idam in 0.2.2.
+The new-tab extension combines a simple home screen, daily productivity interactions, and tile-based styling through Pane UI.
 
 ## First visit
 
@@ -21,12 +21,12 @@ Personalize can reopen setup. Existing workspaces bypass onboarding on upgrade, 
 
 ## Layout and interaction
 
-A broad accent tile highlights the daily priority. Shortcuts, tasks, and a notes preview use restrained dark surfaces. The clock is supporting information. Typography, spacing, square geometry, and simple icons carry the Metro identity. Narrow windows use a single column.
+A broad accent tile highlights the daily priority. Shortcuts, tasks, and a notes preview use restrained dark surfaces. The clock is supporting information. Typography, spacing, square geometry, and simple icons carry the Idam identity. Narrow windows use a single column.
 
-Search filters saved places. Search web or Enter explicitly navigates to the chosen search provider. Tasks support completion and deletion with undo. Notes autosave with visible save status and retry on failure. Personalize controls accents, module visibility, and setup.
+Search filters saved places. Search web or Enter explicitly navigates to the chosen search provider. Tasks support inline editing, completion and deletion with undo. Notes autosave with visible save status and retry on failure. Personalize controls accents, module visibility, and setup.
 
 The Vivaldi theme separately styles the browser frame, especially vertical tabs and the native pinned-tab grid. The extension does not control the browser’s tab layout.
 
 ## Boundaries
 
-Everything is stored locally in the browser profile. No cloud account, sync, weather, AI, integrations, advanced task management, or focus timer is included. See [extension verification](../extension/VERIFICATION.md) for tested behavior and limitations.
+Everything is stored locally in the browser profile. No cloud account, sync, weather, AI, integrations, advanced task management, or focus timer is included. See [testing](TESTING.md) for tested behavior and limitations.

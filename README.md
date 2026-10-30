@@ -2,18 +2,26 @@
 
 <img src="extension/public/icon.svg" alt="Idam home logo" width="64" height="64" />
 
-Your space in the browser. A personal workspace with colorful tiles by Ajmal Hassan, with a new-tab extension built using [Pane UI](https://github.com/ajmalhassan/pane-ui) and a matching Vivaldi theme.
+Your space in the browser. A personal workspace with colorful tiles, built with [Pane UI](https://github.com/ajmalhassan/pane-ui), and a matching Vivaldi theme.
 
-| Product | What it includes | Guide |
+[Website](https://idam.ajmalhassan.com/) · [Releases](https://github.com/ajmalhassan/idam/releases) · [Privacy](docs/PRIVACY.md)
+
+## Install
+
+| Product | Download | Instructions |
 | --- | --- | --- |
-| **Idam — New Tab** | Daily priority, shortcuts, tasks, notes, clock and search for Chromium browsers | [Extension setup](extension/README.md) |
-| **Idam for Vivaldi** | Dark custom CSS focused on vertical tabs, with optional native icon themes | [Theme setup](metro/README.md) · [Icon sets](metro-icons/README.md) |
+| **Idam — New Tab** | [Extension 0.6.1 beta](https://github.com/ajmalhassan/idam/releases/download/v0.6.1/idam-new-tab-0.6.1.zip) | [Chrome and Vivaldi setup](docs/INSTALL.md) |
+| **Idam for Vivaldi** | [idam.css](https://github.com/ajmalhassan/idam/releases/download/v0.6.1/idam.css) | [Vertical-tab theme setup](vivaldi/README.md) |
+| **Idam Icons — Flat** | [Native Vivaldi theme ZIP](https://github.com/ajmalhassan/idam/releases/download/v0.6.1/idam-icons-flat.zip) | [Icon installation](vivaldi/icons/README.md) |
+| **Idam Icons — Classic** | [Native Vivaldi theme ZIP](https://github.com/ajmalhassan/idam/releases/download/v0.6.1/idam-icons-classic.zip) | [Icon installation](vivaldi/icons/README.md) |
 
-Both products share a design direction but can be installed and released independently. The existing `metro/` and `metro-icons/` paths are retained so local CSS installations keep working.
+The extension works independently of the browser theme. The icon ZIPs are imported through Vivaldi's Themes settings; the CSS is installed separately. The Chrome Web Store listing is not yet published.
 
-## Develop the extension
+![Idam home with example shortcuts, tasks and notes](site/assets/home.png)
 
-Requires a modern Node.js release with npm. The code uses Node's built-in test runner. Packaging also requires `zip` and `unzip`; the preview command below requires Python 3.
+## Develop
+
+Requires Node.js with npm; Python 3 builds the Vivaldi icon packages. Extension packaging also uses `zip` and `unzip`.
 
 ```sh
 cd extension
@@ -23,43 +31,30 @@ npm run build
 python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-Open http://127.0.0.1:8765/newtab.html. To install locally, load `extension/dist` as an unpacked extension; see the [installation instructions](extension/README.md#install-in-vivaldi).
+Open `http://127.0.0.1:8765/newtab.html`. To create an extension ZIP, run `npm run package` from `extension/`.
+
+From the repository root, build the browser assets:
 
 ```sh
-# From extension/: build and validate the extension ZIP
-npm run package
-
-# From the repository root: generate both Vivaldi icon themes
-python3 metro-icons/build.py
+python3 vivaldi/icons/build.py
 ```
 
-The CSS theme requires no build.
+Outputs go to `vivaldi/dist/`: `idam.css`, both icon ZIPs, a license, and a dark `icons.html` preview. The editable SVG sources are checked in under `vivaldi/icons/flat/` and `vivaldi/icons/classic/`.
 
-## Repository layout
+## Repository
 
 ```text
-extension/           React extension, tests, build scripts and vendored Pane UI
-metro/               Vivaldi CSS and installation guide
-metro-icons/         Icon-theme generator and native-browser verification images
-docs/                Daily-flow design, beta kit and verification records
-site/                Static beta landing page and privacy disclosure
+extension/           New-tab application, tests, build tools and vendored Pane UI
+vivaldi/idam.css     Browser theme, including vertical and pinned tabs
+vivaldi/icons/       SVG icon sources and native-theme packager
+site/                Landing page, privacy policy and current product images
+docs/                Installation, privacy, design and testing documentation
 ```
 
-Generated bundles, icon-theme outputs, dependencies and ZIPs are ignored. Keep the vendored Pane UI distribution and its license in Git: the extension builds from that local package. Older experiments and pre-Git backups are retained under `.local/archive/` on this machine and are not part of the repository.
+See [contributing](CONTRIBUTING.md), [testing](docs/TESTING.md), [extension details](extension/README.md), and [Pane UI provenance](extension/vendor/README.md).
 
-## Design and verification
+Workspace data stays in the browser profile. Automatic website-icon requests can contact saved sites and external favicon services; see [Privacy](docs/PRIVACY.md).
 
-- [Daily flow](docs/daily-flow.md)
-- [Extension verification](extension/VERIFICATION.md)
-- [Theme verification](metro/VERIFICATION.md)
-- [Pane UI dogfooding log](extension/DOGFOODING.md)
-- [Vendored dependency provenance](extension/vendor/README.md)
+## License
 
-Workspace records stay in the browser profile. There is no backend or account. Website icons can contact saved sites and external favicon services automatically; submitted searches and shortcut actions open their destinations. See the extension guide and [privacy disclosure](docs/beta/PRIVACY.md) for details.
-
-Project repository: [ajmalhassan/idam](https://github.com/ajmalhassan/idam). Planned site: `idam.ajmalhassan.com` (not deployed).
-
-
-## Small beta
-
-The [0.6.1 beta kit](docs/beta/README.md) contains the current validation record, installation/update guide, privacy disclosure, store listing draft and a five-person observation plan. Preview the landing page by serving `site/` on localhost; see [site setup](site/README.md). Run the extension's `prepare:beta` command after packaging and screenshot review to assemble the local distribution kit. The planned domain and browser-store listing have not been published.
+Idam is licensed under [MIT](LICENSE), copyright 2026 Ajmal Hassan. Vendored dependencies retain their own license notices, including [Pane UI](extension/vendor/pane-ui-react/LICENSE).

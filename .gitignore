@@ -3,10 +3,7 @@ node_modules/
 /extension/dist/
 /extension/build-meta.json
 /extension/*.zip
-/metro-icons/flat/
-/metro-icons/classic/
-/metro-icons/preview.html
-/metro-icons/*.zip
+/vivaldi/dist/
 
 # Recoverable local experiments and pre-Git releases
 /.local/
@@ -22,6 +19,9 @@ Thumbs.db
 __pycache__/
 *.py[cod]
 
-# Beta download is assembled from the versioned extension build
+# Keep local plans, reports and distribution artifacts out of public source
+/docs/superpowers/
+/docs/beta/
+/extension/screenshots/
 /site/assets/idam-new-tab.zip
 /site/assets/release.json

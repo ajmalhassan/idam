@@ -11,7 +11,6 @@
     "check": "npm run format:check && npm test",
     "package": "node scripts/package.mjs",
     "check:browser": "node scripts/beta-browser-check.mjs",
-    "prepare:beta": "node scripts/prepare-beta.mjs",
     "capture:promo": "node scripts/beta-promo.mjs"
   },
   "dependencies": {
@@ -23,5 +22,6 @@
     "esbuild": "0.28.2",
     "playwright": "1.62.1",
     "prettier": "3.6.2"
-  }
+  },
+  "license": "MIT"
 }

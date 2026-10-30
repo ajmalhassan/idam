@@ -1,8 +1,8 @@
 # Idam motion design
 
-## Current direction — revision 2, 30 October 2026
+## Onboarding
 
-User-requested flow: animate Idam → Begin → a big, centered name prompt → familiar places with live accent selection → start page. This replaces the automatic welcome handoff in revision 1. Keep the Metro typography, square tiles and dark background. The user controls the pace once the brand has appeared.
+Flow: animate Idam → Begin → a big, centered name prompt → familiar places with live accent selection → start page. Use light typography, square tiles and dark background. The user controls the pace once the brand has appeared.
 
 | Stage | Motion and behavior |
 | --- | --- |
@@ -14,7 +14,7 @@ User-requested flow: animate Idam → Begin → a big, centered name prompt → 
 | Save → home | Save must succeed before the 340ms exit. Home tile wave uses 620ms turns with a maximum 240ms total stagger; surrounding content settles by 920ms. New places keep the chosen accent. |
 | Returning tabs | No reveal or Begin. Shorter tile entrance (300ms plus stagger); search remains usable. |
 
-## Approved welcome proportions
+## Welcome proportions
 
 The reveal wordmark is 66px on desktop and 44px on narrow screens, with a proportionally scaled three-piece home mark. The caption sits 16px below the lockup. Begin uses Pane’s default button padding and 44px minimum height, with the browser theme’s square-ended forward SVG geometry at a heavier 2.4-unit stroke for this compact control.
 
@@ -28,4 +28,4 @@ The reveal wordmark is 66px on desktop and 44px on narrow screens, with a propor
 
 ## Review
 
-Use `http://127.0.0.1:8765/review/index.html`: Experience the welcome, Replay welcome and Everyday entrance. Verification and dogfooding findings are recorded in extension/VERIFICATION.md and extension/DOGFOODING.md.
+Use `http://127.0.0.1:8765/review/index.html`: Experience the welcome, Replay welcome and Everyday entrance. See [testing](TESTING.md) and [Pane integration notes](../extension/DOGFOODING.md).

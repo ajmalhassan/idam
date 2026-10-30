@@ -32,7 +32,7 @@ No path or protocol in the DNS target. Do not change the apex domain or other su
 
 The page explicitly says the extension is not yet available on the Chrome Web Store. Once published, replace the coming-soon CTA and installation explanation with the verified store listing URL. Keep the optional Vivaldi CSS theme separate. The privacy policy names GitHub Pages and links its privacy statement.
 
-The ignored local ZIP is for development/beta packaging only and is not deployed by Pages. There are no public ZIP links.
+Release downloads live in GitHub Releases, outside the Pages artifact. Pages deploys only the allowlisted website files. The theme link points to the maintained `vivaldi/` directory.
 
 ## Verification
 

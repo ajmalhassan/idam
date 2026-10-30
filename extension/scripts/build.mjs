@@ -10,6 +10,7 @@ const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await cp(new URL('../public/', import.meta.url), output, { recursive: true });
+await cp(new URL('../../LICENSE', import.meta.url), new URL('LICENSE.txt', output));
 await cp(
   new URL('../vendor/pane-ui-react/LICENSE', import.meta.url),
   new URL('PANE-LICENSE.txt', output),
