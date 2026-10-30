@@ -2,7 +2,7 @@ name: Publish Idam website
 
 on:
   push:
-    branches: [main, feat/onboarding-motion]
+    branches: [main]
     paths:
       - "site/**"
       - ".github/workflows/pages.yml"
@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/onboarding-motion'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read

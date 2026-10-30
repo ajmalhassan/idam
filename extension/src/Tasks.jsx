@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import { TextField, IconButton, Button } from '@pane-ui/react';
 import { Icon } from './Icon.jsx';
 import { TaskRow } from './TaskRow.jsx';
@@ -11,12 +11,22 @@ export function Tasks({ ws, hidden }) {
     [taskBusy, setTaskBusy] = useState(false);
   const taskInput = useRef(null),
     taskDraft = useRef(''),
-    taskDraftId = useRef(null);
+    taskDraftId = useRef(null),
+    restoreInputFocus = useRef(false);
+  useLayoutEffect(() => {
+    if (taskBusy || !restoreInputFocus.current) return;
+    restoreInputFocus.current = false;
+    // A disabled input cannot receive focus until React commits the enabled state.
+    // Do not take focus back if the person moved to another control while saving.
+    if (document.activeElement === document.body || document.activeElement?.closest('.add-task'))
+      taskInput.current?.focus();
+  }, [taskBusy]);
   const completed = ws.tasks.filter((t) => t.done).length;
   const addTask = async (e) => {
     e.preventDefault();
     const text = taskText.trim();
     if (!text || taskBusy) return;
+    restoreInputFocus.current = true;
     setTaskBusy(true);
     taskDraftId.current ??= id();
     const record = { id: taskDraftId.current, text, done: false, createdAt: Date.now() };
@@ -27,7 +37,6 @@ export function Tasks({ ws, hidden }) {
         taskDraft.current = '';
       }
       if (taskDraftId.current === record.id) taskDraftId.current = null;
-      taskInput.current?.focus();
     }, 'task-create');
     setTaskBusy(false);
   };

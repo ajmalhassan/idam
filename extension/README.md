@@ -18,6 +18,12 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 
 Preview data uses browser localStorage. The installed extension uses `chrome.storage.local`; the two workspaces are separate.
 
+## Beta polish (0.6.1)
+
+Creating a task now keeps keyboard focus in the task input. Shortcut fields lock while a save is pending. The blue accent and daily-priority placeholder have stronger text contrast. Personalize explains automatic favicon lookups. No permissions or runtime dependencies were added.
+
+The [beta kit](../docs/beta/README.md) includes installation/update instructions, privacy details, a seven-day test plan, release evidence and store copy. The [local landing page](../site/README.md) has the beta download and install guide.
+
 ## Reorder your places (0.6.0)
 
 Choose **edit tiles**, then drag a tile onto the left or right half of another tile to place it before or after that tile. A white insertion line shows the destination. Drop to save; Escape or dropping outside the tiles cancels. Small and wide tiles keep their sizes.
@@ -44,7 +50,7 @@ For a repeatable review, open **http://127.0.0.1:8765/review/index.html**. The p
 4. In **Settings → Tabs → New Tab Page**, choose the extension-controlled start page (the label can appear as **Controlled by Extension**).
 5. Open a new tab.
 
-Alternatively, extract `idam-new-tab-0.6.0.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
+Alternatively, extract `idam-new-tab-0.6.1.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
 
 To return to Momentum, disable Idam — New Tab and enable Momentum again.
 
@@ -58,7 +64,7 @@ The manifest now includes 16, 32, 48, and 128px PNG icons for installation and e
 
 ## Branding update (0.2.2)
 
-Metro Start is now **Idam — New Tab**, paired with **Idam for Vivaldi**. Built by Ajmal Hassan with Pane UI. The planned project address is `idam.ajmalhassan.com`; this local rename does not publish a website.
+Metro Start is now **Idam — New Tab**, paired with **Idam for Vivaldi**. Built by Ajmal Hassan with Pane UI. The project website and privacy policy are live at https://idam.ajmalhassan.com/.
 
 Keep using the existing unpacked extension folder when upgrading. Storage keys (`metro.v1.*` and the browser-preview key `metro-start-preview-v1`) remain unchanged to preserve saved work. Internal Metro CSS names and historical release archives remain compatible.
 
@@ -139,3 +145,12 @@ The 0.2.1 refactor retains 0.2.0 behavior and storage keys. Its baseline source 
 The vendored `@pane-ui/react` 0.1.0-alpha.1 distribution is included for reproducible standalone builds; see [provenance](vendor/README.md). React and esbuild versions are pinned in `package-lock.json`. Pane's license is included in the package and build. Pane needs neither Next.js nor Tailwind here.
 
 See [DOGFOODING.md](DOGFOODING.md) for encountered issues and [VERIFICATION.md](VERIFICATION.md) for checks and limits.
+
+
+## Repeatable beta checks
+
+After `npm ci` and `npm run build`, install the test browser once with `npx playwright install chromium`, then run `npm run check:browser`. It creates a fresh temporary browser profile, loads the actual unpacked extension, and checks onboarding, keyboard task entry, slow-save field locking, offline persistence, native new-tab override, backup/recovery, stale tabs, reordering and native favicon fallback. It does not use your everyday profile. Reports go to the ignored `.local/beta/` directory in the repository root.
+
+Use `-- --baseline /absolute/path/to/previous/dist` to test a same-path extension update; use `-- --capture` to refresh fictional-data screenshots in `site/assets`. `IDAM_BROWSER_EXECUTABLE` can select a compatible installed executable such as Google Chrome. Vivaldi requires the separate native procedure recorded in the beta kit; this generic Playwright harness is not its verification procedure.
+
+`npm run capture:promo` renders the approved brand graphics. After reviewing screenshots and running `npm run package`, `npm run prepare:beta` validates versions/images and assembles the ignored `releases/idam-beta-<version>/` folder and ZIP, including the static site, tested extension, guide and store images. It also supplies the site's stable download ZIP. These commands prepare local artifacts; they do not publish or contact testers.

@@ -21,3 +21,7 @@ Thumbs.db
 *.log
 __pycache__/
 *.py[cod]
+
+# Beta download is assembled from the versioned extension build
+/site/assets/idam-new-tab.zip
+/site/assets/release.json

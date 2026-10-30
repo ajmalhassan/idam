@@ -90,8 +90,13 @@ export function Settings({ open, onClose, onSetup, settings, finalFocusRef, run 
             />
           </fieldset>
           <p className="settings-note">
-            Hidden modules keep their saved content. Everything stays on this device. Notes and
-            settings use the latest save when edited in multiple tabs.
+            Hidden modules keep their saved content. Your workspace is saved on this device. Notes
+            and settings use the latest save when edited in multiple tabs.
+          </p>
+          <p className="settings-note">
+            Website icons load automatically from saved sites, with Google and favicon.im as
+            fallbacks for public sites. Lookups use the site origin or hostname, not the full URL.
+            No account or analytics.
           </p>
           <Button variant="subtle" disabled={busy} onClick={onSetup}>
             Revisit setup

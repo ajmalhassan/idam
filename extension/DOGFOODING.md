@@ -73,3 +73,8 @@ Retained Pane Button/TextField, Transition, Stagger and TileSequence. Used Stagg
 ## 0.4.0 compact home — 2026-10-30
 
 Pane TileSequence wrappers inherit a four-column minimum height from `.wp-tile-grid > *`. Changing the consumer grid to compact auto-filled columns without overriding that minimum made square wrappers expand beyond their tracks. Fixed in scoped consumer CSS (`min-height: 0; width: 100%`); this was an integration assumption, not a confirmed library defect. Kept Pane press motion, accessible tile links and edit controls. No upstream issue filed.
+
+
+## 0.6.1 beta preparation — 2026-10-30
+
+The accessibility pass found application-level issues in task input focus timing, shortcut fields accepting input during pending saves, and Idam's accent/placeholder contrast overrides. These were fixed in Idam. No independently reproducible Pane UI defect was found, so no library issue was filed for this pass. Dialog accessible names, focus containment, Escape and return focus passed bounded browser checks; full screen-reader testing remains outstanding.

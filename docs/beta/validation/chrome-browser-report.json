@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-30T14:24:32.422Z",
+  "browser": "156.0.8078.74",
+  "platform": "darwin",
+  "checks": [
+    "Installed extension update preserves all saved records and bypasses onboarding",
+    "Fresh install completes onboarding using chrome.storage.local",
+    "Native new-tab override opens Idam",
+    "Task creation retains typing focus; n does not accidentally open notes",
+    "Shortcut controls reject edits while a slow save is pending",
+    "Installed page and saved tasks/notes work offline and persist after reload",
+    "Native export/import requires confirmation, retains recovery, blocks stale tabs",
+    "Native drag persists across reload without navigation",
+    "No horizontal overflow at 320, 800, 1040 and 1280px under light OS preference",
+    "Darker blue token applies, dark page persists, reduced motion has no running animations",
+    "Native favicon endpoint resolves after external icon sources are blocked",
+    "Captured actual 1280×800 product screenshots with fictional data",
+    "No JavaScript page errors"
+  ],
+  "timings": [
+    {
+      "readyMs": 50,
+      "domContentLoadedMs": 8,
+      "fcpMs": 20
+    },
+    {
+      "readyMs": 49,
+      "domContentLoadedMs": 8,
+      "fcpMs": 24
+    },
+    {
+      "readyMs": 50,
+      "domContentLoadedMs": 8,
+      "fcpMs": 20
+    },
+    {
+      "readyMs": 49,
+      "domContentLoadedMs": 8,
+      "fcpMs": 24
+    },
+    {
+      "readyMs": 49,
+      "domContentLoadedMs": 8,
+      "fcpMs": 20
+    }
+  ],
+  "bundleSha256": "7c8a351a398657392a1417ee99c4a0c750a6869a41e4d4733c133d288e0c72a4",
+  "version": "0.6.1",
+  "upgradedFrom": "0.6.0",
+  "result": "PASS"
+}

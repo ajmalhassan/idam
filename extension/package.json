@@ -1,7 +1,7 @@
 {
   "name": "idam-new-tab",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.6.1",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -9,7 +9,10 @@
     "format": "prettier --write src tests scripts public review package.json .prettierrc.json",
     "format:check": "prettier --check src tests scripts public review package.json .prettierrc.json",
     "check": "npm run format:check && npm test",
-    "package": "node scripts/package.mjs"
+    "package": "node scripts/package.mjs",
+    "check:browser": "node scripts/beta-browser-check.mjs",
+    "prepare:beta": "node scripts/prepare-beta.mjs",
+    "capture:promo": "node scripts/beta-promo.mjs"
   },
   "dependencies": {
     "@pane-ui/react": "file:vendor/pane-ui-react",
@@ -18,6 +21,7 @@
   },
   "devDependencies": {
     "esbuild": "0.28.2",
+    "playwright": "1.62.1",
     "prettier": "3.6.2"
   }
 }

@@ -16,17 +16,17 @@ Open http://127.0.0.1:8787/. The privacy policy is `privacy.html`. Relative URLs
 
 The workflow in `.github/workflows/pages.yml` deploys the two HTML pages, CSS, logo and home screenshot. It excludes operational documentation, beta packages and other repository content. No extension build or Node installation is needed.
 
-The workflow runs on site/workflow changes in `feat/onboarding-motion` (current release work) and `main`. Once that work is integrated into `main`, remove the development branch from the trigger and job condition. The `github-pages` environment must permit the deployment branch. Repository Settings → Pages → Source must be **GitHub Actions**.
+The workflow runs on site/workflow changes in `main` only. Manual runs also require `main`; the `github-pages` environment permits only that branch. Repository Settings → Pages → Source must be **GitHub Actions**.
 
 Default address: https://ajmalhassan.github.io/idam/
 
-Intended custom domain: `idam.ajmalhassan.com`. Set it in repository Pages settings, then add this record at the domain's DNS provider:
+Configured custom domain: `idam.ajmalhassan.com`. Set it in repository Pages settings, then add this record at the domain's DNS provider:
 
 | Type | Name | Target |
 | --- | --- | --- |
 | CNAME | idam | ajmalhassan.github.io |
 
-No path or protocol in the DNS target. Do not change the apex domain or other subdomains. Enable Enforce HTTPS once GitHub provisions the certificate. A CNAME file does not configure the domain for a custom Actions workflow; the repository Pages setting is authoritative.
+No path or protocol in the DNS target. Do not change the apex domain or other subdomains. GitHub has provisioned the certificate and Enforce HTTPS is enabled. A CNAME file does not configure the domain for a custom Actions workflow; the repository Pages setting is authoritative.
 
 ## Store release
 

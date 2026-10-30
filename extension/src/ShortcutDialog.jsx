@@ -16,6 +16,7 @@ export function ShortcutDialog({ record, onClose, finalFocusRef, run }) {
   const update = (key, value) => setForm((f) => ({ ...f, [key]: value }));
   const submit = async (e) => {
     e.preventDefault();
+    if (busy) return;
     let url;
     try {
       url = safeUrl(form.url);
@@ -54,17 +55,26 @@ export function ShortcutDialog({ record, onClose, finalFocusRef, run }) {
         <Field label="Name" required>
           <TextField
             ref={input}
+            disabled={busy}
             value={form.title || ''}
             maxLength={48}
             onChange={(e) => update('title', e.target.value)}
           />
         </Field>
         <Field label="Website" required description="For example, github.com">
-          <TextField value={form.url || ''} onChange={(e) => update('url', e.target.value)} />
+          <TextField
+            disabled={busy}
+            value={form.url || ''}
+            onChange={(e) => update('url', e.target.value)}
+          />
         </Field>
         <div className="form-pair">
           <Field label="Tile color">
-            <Select value={form.tone || 'blue'} onChange={(e) => update('tone', e.target.value)}>
+            <Select
+              disabled={busy}
+              value={form.tone || 'blue'}
+              onChange={(e) => update('tone', e.target.value)}
+            >
               {TONES.map((t) => (
                 <option key={t} value={t}>
                   {t}
@@ -73,7 +83,11 @@ export function ShortcutDialog({ record, onClose, finalFocusRef, run }) {
             </Select>
           </Field>
           <Field label="Tile size">
-            <Select value={form.size || 'small'} onChange={(e) => update('size', e.target.value)}>
+            <Select
+              disabled={busy}
+              value={form.size || 'small'}
+              onChange={(e) => update('size', e.target.value)}
+            >
               <option value="small">Small square · favicon</option>
               <option value="wide">Wide</option>
             </Select>

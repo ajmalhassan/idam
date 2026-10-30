@@ -41,7 +41,8 @@ The CSS theme requires no build.
 extension/           React extension, tests, build scripts and vendored Pane UI
 metro/               Vivaldi CSS and installation guide
 metro-icons/         Icon-theme generator and native-browser verification images
-docs/                Daily-flow design and theme verification screenshot
+docs/                Daily-flow design, beta kit and verification records
+site/                Static beta landing page and privacy disclosure
 ```
 
 Generated bundles, icon-theme outputs, dependencies and ZIPs are ignored. Keep the vendored Pane UI distribution and its license in Git: the extension builds from that local package. Older experiments and pre-Git backups are retained under `.local/archive/` on this machine and are not part of the repository.
@@ -54,6 +55,11 @@ Generated bundles, icon-theme outputs, dependencies and ZIPs are ignored. Keep t
 - [Pane UI dogfooding log](extension/DOGFOODING.md)
 - [Vendored dependency provenance](extension/vendor/README.md)
 
-Data stays in the browser profile. There is no backend or account; search and shortcut actions open their destinations when activated. See the extension guide for storage behavior and current limits.
+Workspace records stay in the browser profile. There is no backend or account. Website icons can contact saved sites and external favicon services automatically; submitted searches and shortcut actions open their destinations. See the extension guide and [privacy disclosure](docs/beta/PRIVACY.md) for details.
 
 Project repository: [ajmalhassan/idam](https://github.com/ajmalhassan/idam). Planned site: `idam.ajmalhassan.com` (not deployed).
+
+
+## Small beta
+
+The [0.6.1 beta kit](docs/beta/README.md) contains the current validation record, installation/update guide, privacy disclosure, store listing draft and a five-person observation plan. Preview the landing page by serving `site/` on localhost; see [site setup](site/README.md). Run the extension's `prepare:beta` command after packaging and screenshot review to assemble the local distribution kit. The planned domain and browser-store listing have not been published.

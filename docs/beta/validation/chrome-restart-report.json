@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-30T14:31:58.169Z",
+  "browser": "156.0.8078.74",
+  "version": "0.6.1",
+  "result": "PASS",
+  "check": "Browser process fully closed and reopened with same disposable profile; CDP-loaded unpacked extension reloaded at the same path/ID and workspace data unchanged. Does not verify automatic re-enabling of a CDP-loaded extension or the manual file-picker installation flow."
+}

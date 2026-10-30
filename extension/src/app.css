@@ -21,7 +21,7 @@ svg {
   flex: 0 0 auto;
 }
 .metro-start.wp-theme[data-accent='blue'] {
-  --wp-accent: #0078d7;
+  --wp-accent: #006ac2;
   --wp-accent-text: #62b7ff;
 }
 .topline {
@@ -466,7 +466,7 @@ h1 {
   font-size: 16px;
 }
 .priority .wp-text-field::placeholder {
-  color: rgb(224, 237, 255);
+  color: #fff;
 }
 .priority .wp-text-field:focus-visible {
   outline: rgb(255, 255, 255) solid 2px;
@@ -534,7 +534,7 @@ h2 {
   overflow-wrap: anywhere;
 }
 .shortcut.tone-blue {
-  background: #0078d7;
+  background: #006ac2;
 }
 .shortcut.tone-teal {
   background: #087969;

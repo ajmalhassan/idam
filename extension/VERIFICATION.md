@@ -158,3 +158,15 @@ A fresh temporary checkout containing only Git candidate files passed an offline
 - At 390px with light OS preference and reduced motion, the page remains dark, has no horizontal overflow, and exposes the arrow controls. Native dragging targets desktop Chromium; touch reordering uses those controls. Installed Vivaldi, full screen-reader coverage and physical touch hardware were not exercised in this pass.
 - Normal browser/user extension data was not changed. No reproducible Pane UI defect was encountered. Ordinary concurrent edits retain the existing last-completed-write behavior; this change does not add cross-tab transactions.
 - Native drag behavior reference: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations
+
+
+## 0.6.1 beta readiness — 2026-10-30
+
+- All 45 unit/build tests and formatting checks pass. Release ZIP passes integrity and excludes review/source/tests/node_modules. Playwright was added only as a development dependency for repeatable native-extension checks.
+- Fixed task-creation focus after the disabled input is re-enabled; a second task can be typed without accidentally opening Notes. Fixed shortcut controls accepting edits while a save was pending. Strengthened blue/placeholder contrast and disclosed favicon requests in Personalize.
+- Installed Chromium 151.0.7922.34 and Chrome 156.0.8078.74 passed fresh setup, new-tab override, offline persistence, native backup/recovery, stale-tab protection, drag persistence and native favicon fallback. Chrome 0.6.0→0.6.1 same-path upgrade preserved all records. Saved data also survived Chrome process restart and reloading the same CDP-installed extension.
+- Native Vivaldi 8.2.4133.96 passed fresh setup, task/note persistence, network-emulated reload and new-tab routing, with a 240px left vertical tab bar. Its native keyboard-only path and manual file-picker installation were not claimed.
+- Local median returning-tab readiness checks were 50ms Chromium and 49ms Chrome on Apple M4 Pro/24 GiB, five samples with reduced motion. These include automation overhead and are not field performance promises. Cold reduced-motion setup reached Begin in 191ms in one Chromium sample.
+- Independent review reproduced/verified all three fixes, including failure focus, no focus stealing and double-submit protection; no remaining material findings. No Pane defect was reproduced.
+- Dark landing page, privacy disclosure, tested local ZIP download, four store screenshots, two promo sizes and five-person beta kit are prepared. Nothing was deployed/submitted and no invitations were sent.
+- Full evidence, raw reports, artifact SHA-256 and limits: [beta validation](../docs/beta/VALIDATION.md). Actual screen-reader, physical touch, Edge and multi-OS coverage remain outstanding.
