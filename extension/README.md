@@ -2,7 +2,7 @@
 
 <img src="public/icon.svg" alt="Idam home logo" width="64" height="64" />
 
-A dark Metro-inspired new-tab extension for Chromium browsers, including Vivaldi, built with the standalone Pane UI React package. Optional onboarding, a daily priority, editable shortcut tiles, tasks with undo, expandable notes, clock, web search, and accent settings. No backend or account.
+A dark new-tab extension with colorful tiles for Chromium browsers, including Vivaldi, built with the standalone Pane UI React package. Optional onboarding, a daily priority, editable shortcut tiles, tasks with undo, expandable notes, clock, web search, and accent settings. No backend or account.
 
 ## Preview
 

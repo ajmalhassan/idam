@@ -2,7 +2,7 @@
 
 <img src="../extension/public/icon.svg" alt="Idam home logo" width="64" height="64" />
 
-A Windows Phone inspired custom CSS theme, designed around **vertical tabs**: near-black surfaces, square corners, a solid blue active tab, and optional icon-only pinned tiles.
+A dark, tile-based custom CSS theme, designed around **vertical tabs**: near-black surfaces, square corners, a solid blue active tab, and optional icon-only pinned tiles.
 
 ## Install
 
@@ -40,7 +40,7 @@ To undo the grid, set that flag back to **Default** and relaunch. Existing pins 
 
 The mockup's asymmetric tiles and live-widget copy are concept content. This package styles Vivaldi's real Start Page without replacing bookmarks or adding widgets. Configure pinned tabs and tab stacks in Vivaldi; CSS does not create them. Horizontal tabs retain their native layout.
 
-Inactive tab-stack fills are flattened to the Metro palette. Native stack frames, counters and indicators retain their stack colors.
+Inactive tab-stack fills are flattened to the Idam palette. Native stack frames, counters and indicators retain their stack colors.
 
 ## Customize
 
@@ -78,4 +78,4 @@ The installed Vivaldi stylesheet and `prefs_definitions.json` were used to verif
 
 ## Idam icon preview
 
-The [ten-icon Metro study](../metro-icons/README.md) includes native theme ZIPs, a visual comparison and actual Vivaldi screenshots. Choose a flat Back arrow or a Windows Phone inspired circular Back button. The guide explains how to use the icons with your existing colors and CSS.
+The [ten-icon theme study](../metro-icons/README.md) includes native theme ZIPs, a visual comparison and actual Vivaldi screenshots. Choose a flat Back arrow or a circular Back button. The guide explains how to use the icons with your existing colors and CSS.

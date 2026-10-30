@@ -2,7 +2,7 @@
 
 <img src="extension/public/icon.svg" alt="Idam home logo" width="64" height="64" />
 
-Your space in the browser. A Metro-inspired experience by Ajmal Hassan, with a new-tab extension built using [Pane UI](https://github.com/ajmalhassan/pane-ui) and a matching Vivaldi theme.
+Your space in the browser. A personal workspace with colorful tiles by Ajmal Hassan, with a new-tab extension built using [Pane UI](https://github.com/ajmalhassan/pane-ui) and a matching Vivaldi theme.
 
 | Product | What it includes | Guide |
 | --- | --- | --- |

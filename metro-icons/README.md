@@ -7,9 +7,9 @@
 Ten original SVG icons, packaged as two native Vivaldi themes. This is a small design trial, not a replacement for every browser icon.
 
 - **Flat**: open Back arrow, matching the rest of the set. Recommended.
-- **Classic**: the same set with a circular Back button, recalling Windows Phone.
+- **Classic**: the same set with a circular Back button.
 
-Run `python3 metro-icons/build.py` from the repository root, then open the generated `metro-icons/preview.html`. These are layout illustrations using the actual packaged SVGs. [Flat in Vivaldi](flat-vivaldi.png) and [Classic in Vivaldi](classic-vivaldi.png) are screenshots of the imported themes in the real browser with the existing Metro CSS.
+Run `python3 metro-icons/build.py` from the repository root, then open the generated `metro-icons/preview.html`. These are layout illustrations using the actual packaged SVGs. [Flat in Vivaldi](flat-vivaldi.png) and [Classic in Vivaldi](classic-vivaldi.png) are screenshots of the imported themes in the real browser with the existing Idam CSS.
 
 ## Install
 
