@@ -14,8 +14,8 @@ import { Shortcuts } from './Shortcuts.jsx';
 import { ShortcutDialog } from './ShortcutDialog.jsx';
 import { Settings } from './Settings.jsx';
 import { localDay } from './priority.js';
-import { PREFIX } from './model.js';
 import { store } from './storage.js';
+import { reorderShortcut } from './shortcut-actions.js';
 
 export function App() {
   const ws = useWorkspace();
@@ -63,20 +63,12 @@ function Workspace({ ws }) {
       },
     );
   };
-  const move = async (s, delta) => {
-    const index = ws.shortcuts.findIndex((x) => x.id === s.id),
-      next = index + delta;
-    if (next < 0 || next >= ws.shortcuts.length) return;
-    const list = [...ws.shortcuts];
-    [list[index], list[next]] = [list[next], list[index]];
-    await ws.run(async () => {
-      const raw = await store.get();
-      const updates = list.flatMap((item, order) => {
-        const key = PREFIX + 'shortcut.' + item.id;
-        return raw[key] ? [[key, { ...raw[key], order }]] : [];
-      });
-      await store.set(Object.fromEntries(updates));
+  const reorder = async (id, destination) => {
+    let order;
+    const saved = await ws.run(async () => {
+      order = await reorderShortcut(store, id, destination);
     }, 'shortcut-order');
+    return { saved, order };
   };
   const search = (e) => {
     e.preventDefault();
@@ -219,7 +211,7 @@ function Workspace({ ws }) {
                   setEditing={setEditing}
                   openShortcut={openShortcut}
                   addRef={addRef}
-                  move={move}
+                  reorder={reorder}
                 />
               </div>
               <aside

@@ -89,6 +89,7 @@
   align-self: stretch;
 }
 .home-workspace .shortcut-slot {
+  position: relative;
   height: 100%;
 }
 .home-workspace .shortcut.wp-tile {
@@ -153,6 +154,44 @@
 }
 .home-workspace .is-editing .tile-tools {
   min-height: 38px;
+}
+.reorder-hint {
+  margin: 0 0 12px;
+  color: #b5b5bd;
+  font-size: 12px;
+}
+.reorder-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.home-workspace .shortcut[draggable='true'] {
+  cursor: grab;
+  user-select: none;
+}
+.home-workspace .shortcut-slot.is-dragging .shortcut {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+.home-workspace .shortcut-slot[data-drop-side]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 88px;
+  width: 3px;
+  background: #fff;
+  box-shadow: 0 0 0 1px #09090b;
+  pointer-events: none;
+  z-index: 2;
+}
+.home-workspace .shortcut-slot[data-drop-side='before']::after {
+  left: -5px;
+}
+.home-workspace .shortcut-slot[data-drop-side='after']::after {
+  right: -5px;
 }
 .home-workspace .daily-panel {
   gap: 14px;

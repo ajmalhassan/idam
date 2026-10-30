@@ -18,6 +18,12 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 
 Preview data uses browser localStorage. The installed extension uses `chrome.storage.local`; the two workspaces are separate.
 
+## Reorder your places (0.6.0)
+
+Choose **edit tiles**, then drag a tile onto the left or right half of another tile to place it before or after that tile. A white insertion line shows the destination. Drop to save; Escape or dropping outside the tiles cancels. Small and wide tiles keep their sizes.
+
+The arrow buttons provide the same ordering controls with a keyboard or touch. Clear the search field before reordering. Failed saves leave the saved order intact and offer **Try again**. Dragging uses the browser's native desktop interaction; touch users can use the arrow buttons.
+
 ## Compact home (0.4.0)
 
 The greeting and priority card use less vertical space, with tasks and notes beside your places. Small square tiles center the website favicon; names appear on hover and keyboard focus and remain available to screen readers. Wide tiles retain visible names. Existing shortcut records and sizes are preserved. Edit tiles reveals spacious editing/reordering controls. Longer task lists scroll inside their panel; notes open in the full editor.
@@ -38,7 +44,7 @@ For a repeatable review, open **http://127.0.0.1:8765/review/index.html**. The p
 4. In **Settings → Tabs → New Tab Page**, choose the extension-controlled start page (the label can appear as **Controlled by Extension**).
 5. Open a new tab.
 
-Alternatively, extract `idam-new-tab-0.5.0.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
+Alternatively, extract `idam-new-tab-0.6.0.zip` into a permanent folder and load that folder. Keep the folder in place. After rebuilding, click Reload on the Idam — New Tab card in `vivaldi://extensions` and reopen the tab.
 
 To return to Momentum, disable Idam — New Tab and enable Momentum again.
 
